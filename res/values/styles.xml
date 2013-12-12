@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <item name="android:windowBackground">@drawable/main_background_dark</item>
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+    </style>
+
+</resources>
