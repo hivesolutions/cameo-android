@@ -39,6 +39,7 @@
         android:typeface="sans"
         android:textColor="#ffffff"
         android:textColorHint="#888888"
+        android:textSize="16sp"
         android:hint="@string/username" >
         <requestFocus />
     </EditText>
@@ -56,6 +57,7 @@
         android:typeface="sans"
         android:textColor="#ffffff"
         android:textColorHint="#888888"
+        android:textSize="16sp"
         android:inputType="textPassword"
         android:hint="@string/password" />
 
