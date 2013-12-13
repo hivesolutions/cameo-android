@@ -4,4 +4,7 @@
     <string name="logo">logo</string>
     <string name="username">username</string>
     <string name="password">password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="forgot_password">Forgot you password ?</string>
+    <string name="copyright">Copyright Hive Solutions 2008&#8211;.2012</string>
 </resources>
