@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">caneo</string>
+    <string name="app_name">cameo</string>
     <string name="logo">logo</string>
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="sign_in">Sign In</string>
     <string name="forgot_password">Forgot you password ?</string>
-    <string name="copyright">Copyright Hive Solutions 2008&#8211;.2012</string>
+    <string name="copyright">Copyright Hive Solutions 2008&#8211;2012</string>
 </resources>

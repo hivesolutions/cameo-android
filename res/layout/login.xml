@@ -36,6 +36,7 @@
         android:background="@android:color/transparent"
         android:singleLine="true"
         android:textCursorDrawable="@null"
+        android:typeface="sans"
         android:textColor="#ffffff"
         android:textColorHint="#888888"
         android:hint="@string/username" >
@@ -52,6 +53,7 @@
         android:background="@android:color/transparent"
         android:singleLine="true"
         android:textCursorDrawable="@null"
+        android:typeface="sans"
         android:textColor="#ffffff"
         android:textColorHint="#888888"
         android:inputType="textPassword"
@@ -79,7 +81,6 @@
         android:layout_alignBaseline="@+id/sign_in"
         android:layout_toRightOf="@+id/sign_in"
         android:textColor="#ffffff"
-        android:textSize="12sp"
         android:text="@string/forgot_password" />
 
     <TextView
