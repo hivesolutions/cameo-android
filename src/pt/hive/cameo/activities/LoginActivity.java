@@ -25,7 +25,7 @@
  __license__   = GNU General Public License (GPL), Version 3
  */
 
-package pt.hive.cameo;
+package pt.hive.cameo.activities;
 
 import pt.hive.cameo.R;
 import android.os.Bundle;
