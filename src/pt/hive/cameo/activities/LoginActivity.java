@@ -27,19 +27,47 @@
 
 package pt.hive.cameo.activities;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import pt.hive.cameo.ProxyRequest;
+import pt.hive.cameo.ProxyRequestDelegate;
 import pt.hive.cameo.R;
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements ProxyRequestDelegate {
+
+    private String loginPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // saves a reference to the current instance under the self variable
+        // so that it may be used by any clojure method
+        final LoginActivity self = this;
+
+        // tries to retrieve the extras set of parameters from the intent
+        // and in case they exist, tries to retrieve the login path (parameter)
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null) {
+            this.loginPath = extras.getString("LOGIN_PATH");
+        }
 
         // removes the title bar from the window (improves readability)
         // and then sets the login layout on it (starts the layout)
@@ -51,5 +79,79 @@ public class LoginActivity extends Activity {
         EditText password = (EditText) this.findViewById(R.id.password);
         password.setTypeface(Typeface.SANS_SERIF);
         password.setTransformationMethod(new PasswordTransformationMethod());
+
+        // retrieves the reference to the various button in the current activity
+        // and registers the current instance as the click listener
+        Button signIn = (Button) findViewById(R.id.sign_in);
+        signIn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                self.login();
+            }
+        });
+    }
+
+    private void login() {
+        EditText username = (EditText) this.findViewById(R.id.username);
+        EditText password = (EditText) this.findViewById(R.id.password);
+
+        List<List<String>> parameters = new LinkedList<List<String>>();
+        parameters.add(new LinkedList<String>(Arrays.asList("username",
+                username.getText().toString())));
+        parameters.add(new LinkedList<String>(Arrays.asList("password",
+                password.getText().toString())));
+
+        ProxyRequest request = new ProxyRequest(this, this.loginPath, null);
+        request.setDelegate(this);
+        request.setParameters(parameters);
+        request.setUseSession(false);
+        request.execute();
+    }
+
+    @Override
+    public void didReceiveJson(JSONObject data) {
+        try {
+            boolean hasException = data.has("exception");
+            if (hasException) {
+                this.handleException(data);
+                return;
+            }
+
+            String sessionId = data.getString("session_id");
+
+            SharedPreferences preferences = this.getSharedPreferences("cameo",
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("sessionId", sessionId);
+            editor.commit();
+
+            this.finish();
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void didReceiveError(Object error) {
+    }
+
+    public void handleException(JSONObject data) {
+        try {
+            JSONObject exception = data.getJSONObject("exception");
+            final String message = exception.getString("message");
+            final Activity self = this;
+
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    AlertDialog alertDialog = new AlertDialog.Builder(self)
+                            .create();
+                    alertDialog.setTitle("Error in submission");
+                    alertDialog.setMessage(message);
+                    alertDialog.show();
+                }
+            });
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
     }
 }
