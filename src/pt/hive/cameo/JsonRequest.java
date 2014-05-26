@@ -17,105 +17,105 @@ import org.json.JSONObject;
 
 public class JsonRequest {
 
-	private JsonRequestDelegate delegate;
-	private String url;
-	private List<List<String>> parameters;
+    private JsonRequestDelegate delegate;
+    private String url;
+    private List<List<String>> parameters;
 
-	public String load() {
-		try {
-			return this.execute();
-		} catch (Exception exception) {
-			if (this.delegate != null) {
-				this.delegate.didReceiveError(exception);
-			}
-		}
-		return null;
-	}
+    public String load() {
+        try {
+            return this.execute();
+        } catch (Exception exception) {
+            if (this.delegate != null) {
+                this.delegate.didReceiveError(exception);
+            }
+        }
+        return null;
+    }
 
-	public String execute() throws ClientProtocolException, IOException,
-			JSONException {
-		String result = null;
-		String url = this.constructUrl();
-		HttpGet get = new HttpGet(url);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response = client.execute(get);
-		HttpEntity entity = response.getEntity();
-		InputStream stream = entity.getContent();
+    public String execute() throws ClientProtocolException, IOException,
+            JSONException {
+        String result = null;
+        String url = this.constructUrl();
+        HttpGet get = new HttpGet(url);
+        HttpClient client = new DefaultHttpClient();
+        HttpResponse response = client.execute(get);
+        HttpEntity entity = response.getEntity();
+        InputStream stream = entity.getContent();
 
-		try {
-			result = JsonRequest.convertStreamToString(stream);
-		} finally {
-			stream.close();
-		}
+        try {
+            result = JsonRequest.convertStreamToString(stream);
+        } finally {
+            stream.close();
+        }
 
-		JSONObject data = new JSONObject(result);
-		if (this.delegate != null) {
-			this.delegate.didReceiveJson(data);
-		}
+        JSONObject data = new JSONObject(result);
+        if (this.delegate != null) {
+            this.delegate.didReceiveJson(data);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private String constructUrl() {
-		if (this.parameters == null) {
-			return this.url;
-		}
-		String parameters = this.constructParameters();
-		String url = String.format("%s?%s", this.url, parameters);
-		return url;
-	}
+    private String constructUrl() {
+        if (this.parameters == null) {
+            return this.url;
+        }
+        String parameters = this.constructParameters();
+        String url = String.format("%s?%s", this.url, parameters);
+        return url;
+    }
 
-	private String constructParameters() {
-		StringBuffer buffer = new StringBuffer();
-		for (List<String> parameter : this.parameters) {
-			String parameterS = String.format("%s=%s&", parameter.get(0),
-					parameter.get(1));
-			buffer.append(parameterS);
-		}
-		return buffer.toString();
-	}
+    private String constructParameters() {
+        StringBuffer buffer = new StringBuffer();
+        for (List<String> parameter : this.parameters) {
+            String parameterS = String.format("%s=%s&", parameter.get(0),
+                    parameter.get(1));
+            buffer.append(parameterS);
+        }
+        return buffer.toString();
+    }
 
-	private static String convertStreamToString(InputStream stream)
-			throws IOException {
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(stream));
-		StringBuilder builder = new StringBuilder();
+    private static String convertStreamToString(InputStream stream)
+            throws IOException {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(stream));
+        StringBuilder builder = new StringBuilder();
 
-		try {
-			while (true) {
-				String line = reader.readLine();
-				if (line == null) {
-					break;
-				}
-				builder.append(line + "\n");
-			}
-		} finally {
-			stream.close();
-		}
-		return builder.toString();
-	}
+        try {
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                builder.append(line + "\n");
+            }
+        } finally {
+            stream.close();
+        }
+        return builder.toString();
+    }
 
-	public JsonRequestDelegate getDelegate() {
-		return delegate;
-	}
+    public JsonRequestDelegate getDelegate() {
+        return delegate;
+    }
 
-	public void setDelegate(JsonRequestDelegate delegate) {
-		this.delegate = delegate;
-	}
+    public void setDelegate(JsonRequestDelegate delegate) {
+        this.delegate = delegate;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public List<List<String>> getParameters() {
-		return parameters;
-	}
+    public List<List<String>> getParameters() {
+        return parameters;
+    }
 
-	public void setParameters(List<List<String>> parameters) {
-		this.parameters = parameters;
-	}
+    public void setParameters(List<List<String>> parameters) {
+        this.parameters = parameters;
+    }
 }
