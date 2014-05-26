@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -54,6 +55,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> {
 	 * show for such operations.
 	 */
 	private String loginPath;
+	
+	/**
+	 * The various GET operation parameters that are going to be encoded to be
+	 * part of the request query parameters.
+	 */
+	private List<List<String>> parameters;
 
 	public ProxyRequest(Context context, String path, String loginPath) {
 		this.context = context;
@@ -75,16 +82,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> {
 		return null;
 	}
 
-	/**
-	 * Starts the loading of the request, this is considered to be the trigger
-	 * of the remote call operation, the proper callback methods will be called
-	 * upon the proper loading of the operations.
-	 * 
-	 * @return The resulting string value, resulting from the loading of the
-	 * @throws IOException
-	 * @throws ClientProtocolException
-	 * @throws JSONException 
-	 */
 	public String load() throws ClientProtocolException, IOException, JSONException {
 		String result = null;
 		
@@ -92,6 +89,10 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> {
 				"cameo", Context.MODE_PRIVATE);
 		String baseUrl = preferences.getString("baseUrl", null);
 		String urlString = String.format("%s%s", baseUrl, this.path);
+		
+		for(List<String> parameter : this.parameters) {
+			String.format("%s=%s", parameter[0], parameter[1]);
+		}
 
 		HttpGet get = new HttpGet(urlString);
 		HttpClient client = new DefaultHttpClient();
@@ -114,25 +115,5 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> {
 	}
 
 	public void showLogin() {
-	}
-
-	private static String convertStreamToString(InputStream stream)
-			throws IOException {
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(stream));
-		StringBuilder builder = new StringBuilder();
-
-		try {
-			while (true) {
-				String line = reader.readLine();
-				if (line == null) {
-					break;
-				}
-				builder.append(line + "\n");
-			}
-		} finally {
-			stream.close();
-		}
-		return builder.toString();
 	}
 }
