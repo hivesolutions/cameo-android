@@ -157,18 +157,11 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     public void handleException(JSONObject data) {
         try {
             JSONObject exception = data.getJSONObject("exception");
-            final String message = exception.getString("message");
-            final Activity self = this;
-
-            this.runOnUiThread(new Runnable() {
-                public void run() {
-                    AlertDialog alertDialog = new AlertDialog.Builder(self)
-                            .create();
-                    alertDialog.setTitle("Error in submission");
-                    alertDialog.setMessage(message);
-                    alertDialog.show();
-                }
-            });
+            String message = exception.getString("message");
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Error in submission");
+            alertDialog.setMessage(message);
+            alertDialog.show();
         } catch (JSONException exception) {
             exception.printStackTrace();
         }
