@@ -11,4 +11,24 @@ package pt.hive.cameo;
  */
 public class ProxyRequest {
 
+    /**
+     * The relative URL path for the request that is going to be performed, this
+     * should be JSON based (eg: api/info.json).
+     */
+    private String path;
+
+    /**
+     * Relative path to the URL that is going to be called in case a login
+     * operation is required, note that the login action is always going to be
+     * show for such operations.
+     */
+    private String loginPath;
+
+    public ProxyRequest(String path, String loginPath) {
+        this.path = path;
+        this.loginPath = path;
+    }
+
+    public void showLogin() {
+    }
 }
