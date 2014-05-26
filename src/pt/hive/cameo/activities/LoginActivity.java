@@ -44,8 +44,10 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,6 +81,16 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         EditText password = (EditText) this.findViewById(R.id.password);
         password.setTypeface(Typeface.SANS_SERIF);
         password.setTransformationMethod(new PasswordTransformationMethod());
+        password.setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    self.login();
+                }
+                return false;
+            }
+        });
 
         // retrieves the reference to the various button in the current activity
         // and registers the current instance as the click listener
@@ -111,20 +123,27 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     @Override
     public void didReceiveJson(JSONObject data) {
         try {
+            // verifies if there's an exception set in the received data, if
+            // that's
+            // the case the exception must be presented to the user
             boolean hasException = data.has("exception");
             if (hasException) {
                 this.handleException(data);
                 return;
             }
 
+            // retrieves the value for the session id that has just been
+            // retrieve by the remote call and sets it under the current
+            // preferences settings so that it may be used latter
             String sessionId = data.getString("session_id");
-
             SharedPreferences preferences = this.getSharedPreferences("cameo",
                     Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("sessionId", sessionId);
             editor.commit();
 
+            // finishes the current activity as it no longer needs to be
+            // present for the login operation (already logged in)
             this.finish();
         } catch (JSONException exception) {
             exception.printStackTrace();
