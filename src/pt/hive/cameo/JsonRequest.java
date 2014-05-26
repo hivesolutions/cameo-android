@@ -21,12 +21,21 @@ public class JsonRequest {
 	private String url;
 	private List<List<String>> parameters;
 
-	public String load() throws ClientProtocolException, IOException,
+	public String load() {
+		try {
+			return this.execute();
+		} catch (Exception exception) {
+			if (this.delegate != null) {
+				this.delegate.didReceiveError(exception);
+			}
+		}
+		return null;
+	}
+
+	public String execute() throws ClientProtocolException, IOException,
 			JSONException {
 		String result = null;
-
 		String url = this.constructUrl();
-
 		HttpGet get = new HttpGet(url);
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse response = client.execute(get);
@@ -84,5 +93,29 @@ public class JsonRequest {
 			stream.close();
 		}
 		return builder.toString();
+	}
+
+	public JsonRequestDelegate getDelegate() {
+		return delegate;
+	}
+
+	public void setDelegate(JsonRequestDelegate delegate) {
+		this.delegate = delegate;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public List<List<String>> getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(List<List<String>> parameters) {
+		this.parameters = parameters;
 	}
 }

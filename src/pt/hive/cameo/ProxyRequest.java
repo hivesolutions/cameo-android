@@ -1,17 +1,9 @@
 package pt.hive.cameo;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +20,7 @@ import android.os.AsyncTask;
  * 
  * @author João Magalhães <joamag@hive.pt>
  */
-public class ProxyRequest extends AsyncTask<Void, Void, String> {
+public class ProxyRequest extends AsyncTask<Void, Void, String> implements JsonRequestDelegate {
 
 	/**
 	 * The reference to the delegate object that is going to be used for the
@@ -81,37 +73,26 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> {
 		}
 		return null;
 	}
+	
+	@Override
+	public void didReceiveJson(JSONObject data) {
+	}
+
+	@Override
+	public void didReceiveError(Object error) {
+	}
 
 	public String load() throws ClientProtocolException, IOException, JSONException {
-		String result = null;
-		
 		SharedPreferences preferences = this.context.getSharedPreferences(
 				"cameo", Context.MODE_PRIVATE);
 		String baseUrl = preferences.getString("baseUrl", null);
 		String urlString = String.format("%s%s", baseUrl, this.path);
 		
-		for(List<String> parameter : this.parameters) {
-			String.format("%s=%s", parameter[0], parameter[1]);
-		}
-
-		HttpGet get = new HttpGet(urlString);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response = client.execute(get);
-		HttpEntity entity = response.getEntity();
-		InputStream stream = entity.getContent();
-
-		try {
-			result = ProxyRequest.convertStreamToString(stream);
-		} finally {
-			stream.close();
-		}
-		
-		JSONObject data = new JSONObject(result);
-		if(this.delegate != null) {
-			this.delegate.didReceiveJson(data);
-		}
-
-		return result;
+		JsonRequest request = new JsonRequest();
+		request.setDelegate(this);
+		request.setUrl(urlString);
+		request.setParameters(parameters);
+		return request.load();
 	}
 
 	public void showLogin() {
