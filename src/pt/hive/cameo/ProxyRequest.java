@@ -29,6 +29,14 @@ public class ProxyRequest {
         this.loginPath = path;
     }
 
+    /**
+     * Starts the loading of the request, this is considered to be the trigger
+     * of the remote call operation, the proper callback methods will be called
+     * upon the proper loading of the operations.
+     */
+    public void load() {
+    }
+
     public void showLogin() {
     }
 }
