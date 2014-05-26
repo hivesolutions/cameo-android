@@ -1,6 +1,35 @@
+/*
+ Hive Cameo Framework
+ Copyright (C) 2008-2014 Hive Solutions Lda.
+
+ This file is part of Hive Cameo Framework.
+
+ Hive Cameo Framework is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Hive Cameo Framework is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Hive Cameo Framework. If not, see <http://www.gnu.org/licenses/>.
+
+ __author__    = João Magalhães <joamag@hive.pt>
+ __version__   = 1.0.0
+ __revision__  = $LastChangedRevision$
+ __date__      = $LastChangedDate$
+ __copyright__ = Copyright (c) 2008-2014 Hive Solutions Lda.
+ __license__   = GNU General Public License (GPL), Version 3
+ */
+
 package pt.hive.cameo;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -8,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.hive.cameo.activities.LoginActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,7 +66,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
      * The context object that is going to be used for resolution of global
      * values this is required in order for the request to work properly.
      */
-    private Context context;
+    private Activity activity;
 
     /**
      * The relative URL path for the request that is going to be performed, this
@@ -67,21 +97,21 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         this.useSession = true;
     }
 
-    public ProxyRequest(Context context, String path, String loginPath) {
+    public ProxyRequest(Activity activity, String path, String loginPath) {
         this();
-        this.context = context;
+        this.activity = activity;
         this.path = path;
         this.loginPath = loginPath;
     }
 
-    static public void logout(Context context, String loginPath) {
-        SharedPreferences preferences = context.getSharedPreferences("cameo",
+    static public void logout(Activity activity, String loginPath) {
+        SharedPreferences preferences = activity.getSharedPreferences("cameo",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("sessionId");
         editor.commit();
         ProxyRequest request = new ProxyRequest();
-        request.context = context;
+        request.activity = activity;
         request.loginPath = loginPath;
         request.showLogin();
     }
@@ -116,7 +146,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
 
     public String load() throws ClientProtocolException, IOException,
             JSONException {
-        SharedPreferences preferences = this.context.getSharedPreferences(
+        SharedPreferences preferences = this.activity.getSharedPreferences(
                 "cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
@@ -127,8 +157,16 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
             return null;
         }
 
+        List<List<String>> parameters = new LinkedList<List<String>>();
+        if (this.parameters != null) {
+            parameters.addAll(this.parameters);
+        }
+        parameters.add(new LinkedList<String>(Arrays.asList("session_id",
+                sessionId)));
+
         JsonRequest request = new JsonRequest();
         request.setDelegate(this);
+        request.setActivity(this.activity);
         request.setUrl(urlString);
         request.setParameters(parameters);
         return request.load();
@@ -137,9 +175,9 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
     public void showLogin() {
         // creates the intent object that represents the login
         // activity and then starts it (pushing it into the screen)
-        Intent intent = new Intent(this.context, LoginActivity.class);
+        Intent intent = new Intent(this.activity, LoginActivity.class);
         intent.putExtra("LOGIN_PATH", this.loginPath);
-        this.context.startActivity(intent);
+        this.activity.startActivity(intent);
     }
 
     public ProxyRequestDelegate getDelegate() {

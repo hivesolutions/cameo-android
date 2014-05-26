@@ -1,3 +1,30 @@
+/*
+ Hive Cameo Framework
+ Copyright (C) 2008-2014 Hive Solutions Lda.
+
+ This file is part of Hive Cameo Framework.
+
+ Hive Cameo Framework is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Hive Cameo Framework is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Hive Cameo Framework. If not, see <http://www.gnu.org/licenses/>.
+
+ __author__    = João Magalhães <joamag@hive.pt>
+ __version__   = 1.0.0
+ __revision__  = $LastChangedRevision$
+ __date__      = $LastChangedDate$
+ __copyright__ = Copyright (c) 2008-2014 Hive Solutions Lda.
+ __license__   = GNU General Public License (GPL), Version 3
+ */
+
 package pt.hive.cameo;
 
 import java.io.BufferedReader;
@@ -15,18 +42,27 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+
 public class JsonRequest {
 
     private JsonRequestDelegate delegate;
+    private Activity activity;
     private String url;
     private List<List<String>> parameters;
 
     public String load() {
         try {
             return this.execute();
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             if (this.delegate != null) {
-                this.delegate.didReceiveError(exception);
+                final JsonRequest self = this;
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        self.delegate.didReceiveError(exception);
+                    }
+                });
             }
         }
         return null;
@@ -48,9 +84,15 @@ public class JsonRequest {
             stream.close();
         }
 
-        JSONObject data = new JSONObject(result);
+        final JSONObject data = new JSONObject(result);
         if (this.delegate != null) {
-            this.delegate.didReceiveJson(data);
+            final JsonRequest self = this;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.delegate.didReceiveJson(data);
+                }
+            });
         }
 
         return result;
@@ -101,6 +143,14 @@ public class JsonRequest {
 
     public void setDelegate(JsonRequestDelegate delegate) {
         this.delegate = delegate;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public String getUrl() {
