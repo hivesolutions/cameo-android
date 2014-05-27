@@ -56,6 +56,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         JsonRequestDelegate {
 
     /**
+     * Constant value that defined the request login intent value that may be
+     * used to identify this request intent.
+     */
+    public static final int LOGIN_REQUEST = 1;
+
+    /**
      * The reference to the delegate object that is going to be used for the
      * calling of the various callback functions for the request. This is
      * required in order to ensure a proper asynchronous approach.
@@ -176,7 +182,8 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         // activity and then starts it (pushing it into the screen)
         Intent intent = new Intent(this.activity, LoginActivity.class);
         intent.putExtra("LOGIN_PATH", this.loginPath);
-        this.activity.startActivity(intent);
+        this.activity
+                .startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
     }
 
     public ProxyRequestDelegate getDelegate() {
