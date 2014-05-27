@@ -57,7 +57,7 @@ public class JsonRequest {
         } catch (final Exception exception) {
             if (this.delegate != null) {
                 final JsonRequest self = this;
-                activity.runOnUiThread(new Runnable() {
+                this.activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         self.delegate.didReceiveError(exception);
@@ -87,7 +87,7 @@ public class JsonRequest {
         final JSONObject data = new JSONObject(result);
         if (this.delegate != null) {
             final JsonRequest self = this;
-            activity.runOnUiThread(new Runnable() {
+            this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     self.delegate.didReceiveJson(data);
