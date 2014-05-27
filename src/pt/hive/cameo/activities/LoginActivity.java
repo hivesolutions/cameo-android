@@ -148,7 +148,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             // present for the login operation (already logged in)
             this.finish();
         } catch (JSONException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
     }
 
@@ -165,7 +165,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             alertDialog.setMessage(message);
             alertDialog.show();
         } catch (JSONException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
     }
 }

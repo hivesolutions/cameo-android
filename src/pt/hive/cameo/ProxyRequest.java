@@ -121,13 +121,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         try {
             return this.load();
         } catch (ClientProtocolException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         } catch (JSONException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
-        return null;
     }
 
     @Override
