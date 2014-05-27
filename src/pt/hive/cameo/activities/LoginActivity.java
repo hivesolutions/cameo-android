@@ -136,10 +136,12 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             // retrieve by the remote call and sets it under the current
             // preferences settings so that it may be used latter
             String sessionId = data.getString("session_id");
+            String username = data.getString("username");
             SharedPreferences preferences = this.getSharedPreferences("cameo",
                     Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("sessionId", sessionId);
+            editor.putString("username", username);
             editor.commit();
 
             // finishes the current activity as it no longer needs to be
