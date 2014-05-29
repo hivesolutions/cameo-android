@@ -110,7 +110,15 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         this.loginPath = loginPath;
     }
 
-    static public void logout(Activity activity, String loginPath) {
+    public static boolean isReady(Activity activity) {
+        SharedPreferences preferences = activity.getSharedPreferences("cameo",
+                Context.MODE_PRIVATE);
+        String baseUrl = preferences.getString("baseUrl", null);
+        String sessionId = preferences.getString("sessionId", null);
+        return baseUrl != null && sessionId != null;
+    }
+
+    public static void logout(Activity activity, String loginPath) {
         SharedPreferences preferences = activity.getSharedPreferences("cameo",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
