@@ -42,20 +42,32 @@ import pt.hive.cameo.ssl.SSLSocketFactory;
 public class ClientFactory {
 
     public static DefaultHttpClient getHttpClient() {
-        DefaultHttpClient client = null;
-
+        // creates a new instance of the basic http parameters and then
+        // updates the parameter with a series of pre-defined options that
+        // are defined as the default ones for this factory
         HttpParams params = new BasicHttpParams();
         HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
         HttpProtocolParams.setContentCharset(params, "utf-8");
+        params.setBooleanParameter("http.protocol.strict-transfer-encoding",
+                false);
         params.setBooleanParameter("http.protocol.expect-continue", false);
 
+        // creates the registry object and registers both the secure and the
+        // insecure http mechanisms for the respective socket factories
         SchemeRegistry registry = new SchemeRegistry();
         registry.register(new Scheme("http", PlainSocketFactory
                 .getSocketFactory(), 80));
         registry.register(new Scheme("https", new SSLSocketFactory(), 443));
+
+        // creates the manager entity using the creates parameters structure
+        // and the registry for socket factories
         ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(
                 params, registry);
-        client = new DefaultHttpClient(manager, params);
+
+        // creates the default http client using the created thread safe manager
+        // with the provided parameters and registry (as expected) and then
+        // returns the new client to the caller method so that it may be used
+        DefaultHttpClient client = new DefaultHttpClient(manager, params);
         return client;
     }
 }
