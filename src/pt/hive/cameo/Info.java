@@ -32,7 +32,7 @@ package pt.hive.cameo;
  * overall structure of the Cameo Framework, mostly used in a static way for
  * string retrieval.
  *
- * @author João MAgalhães <joamag@hive.pt>
+ * @author João Magalhães <joamag@hive.pt>
  */
 public class Info {
 
