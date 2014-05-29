@@ -110,6 +110,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         this.loginPath = loginPath;
     }
 
+    public static ProxyRequest request(Activity activity, String path,
+            String loginPath, ProxyRequestDelegate delegate) {
+        ProxyRequest request = new ProxyRequest(activity, path, loginPath);
+        request.setDelegate(delegate);
+        request.execute();
+        return request;
+    }
+
     public static boolean isReady(Activity activity) {
         SharedPreferences preferences = activity.getSharedPreferences("cameo",
                 Context.MODE_PRIVATE);
