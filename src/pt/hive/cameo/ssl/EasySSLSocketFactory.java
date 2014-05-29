@@ -46,7 +46,7 @@ import org.apache.http.params.HttpParams;
 public class EasySSLSocketFactory implements SocketFactory,
         LayeredSocketFactory {
 
-    private SSLContext sslContext = null;
+    private SSLContext sslContext;
 
     @Override
     public boolean equals(Object obj) {

@@ -39,7 +39,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class EasyX509TrustManager implements X509TrustManager {
 
-    private X509TrustManager standardTrustManager = null;
+    private X509TrustManager standardTrustManager;
 
     public EasyX509TrustManager(KeyStore keystore)
             throws NoSuchAlgorithmException, KeyStoreException {
@@ -49,7 +49,7 @@ public class EasyX509TrustManager implements X509TrustManager {
         factory.init(keystore);
         TrustManager[] trustmanagers = factory.getTrustManagers();
         if (trustmanagers.length == 0) {
-            throw new NoSuchAlgorithmException("no trust manager found");
+            throw new NoSuchAlgorithmException("No trust manager found");
         }
         this.standardTrustManager = (X509TrustManager) trustmanagers[0];
     }
