@@ -31,7 +31,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-public class Visual {
+public class Layout {
 
     public static int dipToPixels(Context context, float dipValue) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
