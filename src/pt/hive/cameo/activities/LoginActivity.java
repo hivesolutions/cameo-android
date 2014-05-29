@@ -156,7 +156,8 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     @Override
     public void didReceiveError(Object error) {
-        Log.d(Info.TAG, "Error received in login request");
+        Log.d(Info.TAG,
+                String.format("Error received in login request: %s", error));
     }
 
     public void handleException(JSONObject data) {
