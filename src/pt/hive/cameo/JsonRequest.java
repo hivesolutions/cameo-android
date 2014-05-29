@@ -73,7 +73,7 @@ public class JsonRequest {
         String result = null;
         String url = this.constructUrl();
         HttpGet get = new HttpGet(url);
-        HttpClient client = ClientFactory.getHttpClient();
+        HttpClient client = ClientFactory.getHttpClient(false);
         HttpResponse response = client.execute(get);
         HttpEntity entity = response.getEntity();
         InputStream stream = entity.getContent();

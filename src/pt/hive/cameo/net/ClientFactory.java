@@ -27,6 +27,8 @@
 
 package pt.hive.cameo.net;
 
+import org.apache.http.conn.scheme.SocketFactory;
+
 import org.apache.http.HttpVersion;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -42,6 +44,10 @@ import pt.hive.cameo.ssl.SSLSocketFactory;
 public class ClientFactory {
 
     public static DefaultHttpClient getHttpClient() {
+        return ClientFactory.getHttpClient(true);
+    }
+
+    public static DefaultHttpClient getHttpClient(boolean strict) {
         // creates a new instance of the basic http parameters and then
         // updates the parameter with a series of pre-defined options that
         // are defined as the default ones for this factory
@@ -50,14 +56,20 @@ public class ClientFactory {
         HttpProtocolParams.setContentCharset(params, "utf-8");
         params.setBooleanParameter("http.protocol.strict-transfer-encoding",
                 false);
-        params.setBooleanParameter("http.protocol.expect-continue", false);
+        params.setBooleanParameter("http.protocol.expect-continue", true);
+
+        // constructs both the plain and the secure factory objects that are
+        // going to be used in the registration of the plain and secure http
+        // schemes, operation to be performed latter on
+        SocketFactory plainFactory = PlainSocketFactory.getSocketFactory();
+        SocketFactory secureFactory = strict ? org.apache.http.conn.ssl.SSLSocketFactory
+                .getSocketFactory() : SSLSocketFactory.getSocketFactory();
 
         // creates the registry object and registers both the secure and the
         // insecure http mechanisms for the respective socket factories
         SchemeRegistry registry = new SchemeRegistry();
-        registry.register(new Scheme("http", PlainSocketFactory
-                .getSocketFactory(), 80));
-        registry.register(new Scheme("https", new SSLSocketFactory(), 443));
+        registry.register(new Scheme("http", plainFactory, 80));
+        registry.register(new Scheme("https", secureFactory, 443));
 
         // creates the manager entity using the creates parameters structure
         // and the registry for socket factories

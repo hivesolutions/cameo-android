@@ -57,22 +57,8 @@ public class SSLSocketFactory implements SocketFactory, LayeredSocketFactory {
         return SSLSocketFactory.class.hashCode();
     }
 
-    private static SSLContext createEasySSLContext() throws IOException {
-        try {
-            SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null,
-                    new TrustManager[] { new TrivialTrustManager() }, null);
-            return context;
-        } catch (Exception exception) {
-            throw new IOException(exception.getMessage());
-        }
-    }
-
-    private SSLContext getSSLContext() throws IOException {
-        if (this.sslContext == null) {
-            this.sslContext = SSLSocketFactory.createEasySSLContext();
-        }
-        return this.sslContext;
+    public static SocketFactory getSocketFactory() {
+        return new SSLSocketFactory();
     }
 
     public Socket connectSocket(Socket sock, String host, int port,
@@ -112,5 +98,23 @@ public class SSLSocketFactory implements SocketFactory, LayeredSocketFactory {
 
     public boolean isSecure(Socket socket) throws IllegalArgumentException {
         return true;
+    }
+
+    private static SSLContext createEasySSLContext() throws IOException {
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null,
+                    new TrustManager[] { new TrivialTrustManager() }, null);
+            return context;
+        } catch (Exception exception) {
+            throw new IOException(exception.getMessage());
+        }
+    }
+
+    private SSLContext getSSLContext() throws IOException {
+        if (this.sslContext == null) {
+            this.sslContext = SSLSocketFactory.createEasySSLContext();
+        }
+        return this.sslContext;
     }
 }
