@@ -62,8 +62,8 @@ public class EasySSLSocketFactory implements SocketFactory,
     private static SSLContext createEasySSLContext() throws IOException {
         try {
             SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, new TrustManager[] { new EasyX509TrustManager(
-                    null) }, null);
+            context.init(null,
+                    new TrustManager[] { new TrivialTrustManager() }, null);
             return context;
         } catch (Exception e) {
             throw new IOException(e.getMessage());
@@ -84,7 +84,8 @@ public class EasySSLSocketFactory implements SocketFactory,
         int soTimeout = HttpConnectionParams.getSoTimeout(params);
 
         InetSocketAddress remoteAddress = new InetSocketAddress(host, port);
-        SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock : createSocket());
+        SSLSocket sslSocket = (SSLSocket) ((sock != null) ? sock
+                : this.createSocket());
 
         if ((localAddress != null) || (localPort > 0)) {
             if (localPort < 0) {
@@ -92,16 +93,16 @@ public class EasySSLSocketFactory implements SocketFactory,
             }
             InetSocketAddress isa = new InetSocketAddress(localAddress,
                     localPort);
-            sslsock.bind(isa);
+            sslSocket.bind(isa);
         }
 
-        sslsock.connect(remoteAddress, connTimeout);
-        sslsock.setSoTimeout(soTimeout);
-        return sslsock;
+        sslSocket.connect(remoteAddress, connTimeout);
+        sslSocket.setSoTimeout(soTimeout);
+        return sslSocket;
     }
 
     public Socket createSocket() throws IOException {
-        return getSSLContext().getSocketFactory().createSocket();
+        return this.getSSLContext().getSocketFactory().createSocket();
     }
 
     public boolean isSecure(Socket socket) throws IllegalArgumentException {
@@ -110,6 +111,6 @@ public class EasySSLSocketFactory implements SocketFactory,
 
     public Socket createSocket(Socket socket, String host, int port,
             boolean autoClose) throws IOException, UnknownHostException {
-        return getSSLContext().getSocketFactory().createSocket();
+        return this.getSSLContext().getSocketFactory().createSocket();
     }
 }
