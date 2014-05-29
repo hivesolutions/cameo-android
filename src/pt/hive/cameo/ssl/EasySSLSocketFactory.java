@@ -72,7 +72,7 @@ public class EasySSLSocketFactory implements SocketFactory,
 
     private SSLContext getSSLContext() throws IOException {
         if (this.sslContext == null) {
-            this.sslContext = createEasySSLContext();
+            this.sslContext = EasySSLSocketFactory.createEasySSLContext();
         }
         return this.sslContext;
     }
@@ -87,9 +87,8 @@ public class EasySSLSocketFactory implements SocketFactory,
         SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock : createSocket());
 
         if ((localAddress != null) || (localPort > 0)) {
-            // we need to bind explicitly
             if (localPort < 0) {
-                localPort = 0; // indicates "any"
+                localPort = 0;
             }
             InetSocketAddress isa = new InetSocketAddress(localAddress,
                     localPort);
