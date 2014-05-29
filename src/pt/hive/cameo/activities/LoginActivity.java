@@ -34,6 +34,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pt.hive.cameo.Info;
 import pt.hive.cameo.ProxyRequest;
 import pt.hive.cameo.ProxyRequestDelegate;
 import pt.hive.cameo.R;
@@ -44,6 +45,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -154,6 +156,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     @Override
     public void didReceiveError(Object error) {
+    	Log.d(Info.TAG, "Error received in login request");
     }
 
     public void handleException(JSONObject data) {
