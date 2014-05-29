@@ -38,10 +38,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pt.hive.cameo.ssl.ClientFactory;
 import android.app.Activity;
 
 public class JsonRequest {
@@ -73,7 +73,7 @@ public class JsonRequest {
         String result = null;
         String url = this.constructUrl();
         HttpGet get = new HttpGet(url);
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = ClientFactory.getHttpClient();
         HttpResponse response = client.execute(get);
         HttpEntity entity = response.getEntity();
         InputStream stream = entity.getContent();
