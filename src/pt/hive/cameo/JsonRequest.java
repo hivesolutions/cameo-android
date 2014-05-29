@@ -41,7 +41,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.hive.cameo.ssl.ClientFactory;
+import pt.hive.cameo.net.ClientFactory;
 import android.app.Activity;
 
 public class JsonRequest {

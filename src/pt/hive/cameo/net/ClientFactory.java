@@ -25,7 +25,7 @@
  __license__   = GNU General Public License (GPL), Version 3
  */
 
-package pt.hive.cameo.ssl;
+package pt.hive.cameo.net;
 
 import org.apache.http.HttpVersion;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -36,6 +36,8 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
+
+import pt.hive.cameo.ssl.EasySSLSocketFactory;
 
 public class ClientFactory {
 
