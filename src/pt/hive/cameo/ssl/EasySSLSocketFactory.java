@@ -1,3 +1,30 @@
+/*
+ Hive Cameo Framework
+ Copyright (C) 2008-2014 Hive Solutions Lda.
+
+ This file is part of Hive Cameo Framework.
+
+ Hive Cameo Framework is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Hive Cameo Framework is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Hive Cameo Framework. If not, see <http://www.gnu.org/licenses/>.
+
+ __author__    = João Magalhães <joamag@hive.pt>
+ __version__   = 1.0.0
+ __revision__  = $LastChangedRevision$
+ __date__      = $LastChangedDate$
+ __copyright__ = Copyright (c) 2008-2014 Hive Solutions Lda.
+ __license__   = GNU General Public License (GPL), Version 3
+ */
+
 package pt.hive.cameo.ssl;
 
 import java.io.IOException;
@@ -19,7 +46,18 @@ import org.apache.http.params.HttpParams;
 public class EasySSLSocketFactory implements SocketFactory,
         LayeredSocketFactory {
 
-    private SSLContext sslcontext = null;
+    private SSLContext sslContext = null;
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((obj != null) && obj.getClass().equals(
+                EasySSLSocketFactory.class));
+    }
+
+    @Override
+    public int hashCode() {
+        return EasySSLSocketFactory.class.hashCode();
+    }
 
     private static SSLContext createEasySSLContext() throws IOException {
         try {
@@ -33,13 +71,12 @@ public class EasySSLSocketFactory implements SocketFactory,
     }
 
     private SSLContext getSSLContext() throws IOException {
-        if (this.sslcontext == null) {
-            this.sslcontext = createEasySSLContext();
+        if (this.sslContext == null) {
+            this.sslContext = createEasySSLContext();
         }
-        return this.sslcontext;
+        return this.sslContext;
     }
 
-    @Override
     public Socket connectSocket(Socket sock, String host, int port,
             InetAddress localAddress, int localPort, HttpParams params)
             throws IOException, UnknownHostException, ConnectTimeoutException {
@@ -62,34 +99,18 @@ public class EasySSLSocketFactory implements SocketFactory,
         sslsock.connect(remoteAddress, connTimeout);
         sslsock.setSoTimeout(soTimeout);
         return sslsock;
-
     }
 
-    @Override
     public Socket createSocket() throws IOException {
         return getSSLContext().getSocketFactory().createSocket();
     }
 
-    @Override
     public boolean isSecure(Socket socket) throws IllegalArgumentException {
         return true;
     }
 
-    @Override
     public Socket createSocket(Socket socket, String host, int port,
             boolean autoClose) throws IOException, UnknownHostException {
         return getSSLContext().getSocketFactory().createSocket();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return ((obj != null) && obj.getClass().equals(
-                EasySSLSocketFactory.class));
-    }
-
-    @Override
-    public int hashCode() {
-        return EasySSLSocketFactory.class.hashCode();
-    }
-
 }
