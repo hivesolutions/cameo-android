@@ -45,7 +45,17 @@ import org.apache.http.params.HttpParams;
 
 public class SSLSocketFactory implements SocketFactory, LayeredSocketFactory {
 
-    private SSLContext sslContext = null;
+    private SSLContext sslContext;
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((obj != null) && obj.getClass().equals(SSLSocketFactory.class));
+    }
+
+    @Override
+    public int hashCode() {
+        return SSLSocketFactory.class.hashCode();
+    }
 
     private static SSLContext createEasySSLContext() throws IOException {
         try {
@@ -94,24 +104,13 @@ public class SSLSocketFactory implements SocketFactory, LayeredSocketFactory {
         return getSSLContext().getSocketFactory().createSocket();
     }
 
-    public boolean isSecure(Socket socket) throws IllegalArgumentException {
-        return true;
-    }
-
     public Socket createSocket(Socket socket, String host, int port,
             boolean autoClose) throws IOException, UnknownHostException {
         return this.getSSLContext().getSocketFactory()
                 .createSocket(socket, host, port, autoClose);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return ((obj != null) && obj.getClass().equals(SSLSocketFactory.class));
+    public boolean isSecure(Socket socket) throws IllegalArgumentException {
+        return true;
     }
-
-    @Override
-    public int hashCode() {
-        return SSLSocketFactory.class.hashCode();
-    }
-
 }
