@@ -165,7 +165,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         String sessionId = preferences.getString("sessionId", null);
         String urlString = String.format("%s%s", baseUrl, this.path);
 
-        if (this.useSession && sessionId == null) {
+        if (this.useSession && ProxyRequest.isReady(this.activity) == false) {
             this.showLogin();
             return null;
         }
