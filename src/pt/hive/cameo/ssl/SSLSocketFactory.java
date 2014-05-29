@@ -43,21 +43,9 @@ import org.apache.http.conn.scheme.SocketFactory;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-public class EasySSLSocketFactory implements SocketFactory,
-        LayeredSocketFactory {
+public class SSLSocketFactory implements SocketFactory, LayeredSocketFactory {
 
-    private SSLContext sslContext;
-
-    @Override
-    public boolean equals(Object obj) {
-        return ((obj != null) && obj.getClass().equals(
-                EasySSLSocketFactory.class));
-    }
-
-    @Override
-    public int hashCode() {
-        return EasySSLSocketFactory.class.hashCode();
-    }
+    private SSLContext sslContext = null;
 
     private static SSLContext createEasySSLContext() throws IOException {
         try {
@@ -65,14 +53,14 @@ public class EasySSLSocketFactory implements SocketFactory,
             context.init(null,
                     new TrustManager[] { new TrivialTrustManager() }, null);
             return context;
-        } catch (Exception e) {
-            throw new IOException(e.getMessage());
+        } catch (Exception exception) {
+            throw new IOException(exception.getMessage());
         }
     }
 
     private SSLContext getSSLContext() throws IOException {
         if (this.sslContext == null) {
-            this.sslContext = EasySSLSocketFactory.createEasySSLContext();
+            this.sslContext = SSLSocketFactory.createEasySSLContext();
         }
         return this.sslContext;
     }
@@ -85,7 +73,7 @@ public class EasySSLSocketFactory implements SocketFactory,
 
         InetSocketAddress remoteAddress = new InetSocketAddress(host, port);
         SSLSocket sslSocket = (SSLSocket) ((sock != null) ? sock
-                : this.createSocket());
+                : createSocket());
 
         if ((localAddress != null) || (localPort > 0)) {
             if (localPort < 0) {
@@ -99,10 +87,11 @@ public class EasySSLSocketFactory implements SocketFactory,
         sslSocket.connect(remoteAddress, connTimeout);
         sslSocket.setSoTimeout(soTimeout);
         return sslSocket;
+
     }
 
     public Socket createSocket() throws IOException {
-        return this.getSSLContext().getSocketFactory().createSocket();
+        return getSSLContext().getSocketFactory().createSocket();
     }
 
     public boolean isSecure(Socket socket) throws IllegalArgumentException {
@@ -111,6 +100,18 @@ public class EasySSLSocketFactory implements SocketFactory,
 
     public Socket createSocket(Socket socket, String host, int port,
             boolean autoClose) throws IOException, UnknownHostException {
-        return this.getSSLContext().getSocketFactory().createSocket();
+        return this.getSSLContext().getSocketFactory()
+                .createSocket(socket, host, port, autoClose);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((obj != null) && obj.getClass().equals(SSLSocketFactory.class));
+    }
+
+    @Override
+    public int hashCode() {
+        return SSLSocketFactory.class.hashCode();
+    }
+
 }

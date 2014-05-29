@@ -37,7 +37,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
-import pt.hive.cameo.ssl.EasySSLSocketFactory;
+import pt.hive.cameo.ssl.SSLSocketFactory;
 
 public class ClientFactory {
 
@@ -52,7 +52,7 @@ public class ClientFactory {
         SchemeRegistry registry = new SchemeRegistry();
         registry.register(new Scheme("http", PlainSocketFactory
                 .getSocketFactory(), 80));
-        registry.register(new Scheme("https", new EasySSLSocketFactory(), 443));
+        registry.register(new Scheme("https", new SSLSocketFactory(), 443));
         ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(
                 params, registry);
         client = new DefaultHttpClient(manager, params);
