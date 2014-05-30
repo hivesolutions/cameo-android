@@ -84,7 +84,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         this.setContentView(R.layout.login);
 
         // in case we've received a valid logo identifier the logo image must be
-        // updated with the associated resrouce (customized view)
+        // updated with the associated resource (customized view)
         if (this.logoId != 0) {
             Drawable logoResource = this.getResources()
                     .getDrawable(this.logoId);
