@@ -1,13 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="GreyTheme"
+    <style name="DarkTheme"
         parent="@style/Theme.AppCompat.Light">
-        <item name="actionBarStyle">@style/GreyActionBar</item>
-        <item name="actionOverflowButtonStyle">@style/GreyActionBar.ButtonOverflow</item>
+        <item name="actionBarStyle">@style/DarkActionBar</item>
+        <item name="actionOverflowButtonStyle">@style/DarkActionBar.ButtonOverflow</item>
         <item name="actionMenuTextColor">@color/white</item>
-        <item tools:targetApi="11" name="android:actionBarStyle">@style/GreyActionBar</item>
-        <item tools:targetApi="11" name="android:actionOverflowButtonStyle">@style/GreyActionBar.ButtonOverflow</item>
+        <item tools:targetApi="11" name="android:actionBarStyle">@style/DarkActionBar</item>
+        <item tools:targetApi="11" name="android:actionOverflowButtonStyle">@style/DarkActionBar.ButtonOverflow</item>
         <item tools:targetApi="11" name="android:actionMenuTextColor">@color/white</item>
+    </style>
+    <style name="GreyTheme"
+        parent="@style/DarkTheme">
+        <item name="actionBarStyle">@style/GreyActionBar</item>
+        <item tools:targetApi="11" name="android:actionBarStyle">@style/GreyActionBar</item>
+    </style>
+    <style name="NavyBlueTheme"
+        parent="@style/DarkTheme">
+        <item name="actionBarStyle">@style/NavyBlueActionBar</item>
+        <item tools:targetApi="11" name="android:actionBarStyle">@style/NavyBlueActionBar</item>
     </style>
     <style name="OverlayTheme"
            parent="@style/Theme.AppCompat.Light">
@@ -18,18 +28,28 @@
         <item tools:targetApi="11" name="android:windowActionBarOverlay">true</item>
         <item tools:targetApi="11" name="android:actionMenuTextColor">@color/white</item>
     </style>
-    <style name="GreyActionBar"
+    <style name="DarkActionBar"
            parent="@style/Widget.AppCompat.ActionBar">
-        <item name="background">@color/grey</item>
-        <item name="titleTextStyle">@style/GreyActionBar.TextStyle</item>
-        <item name="android:background">@color/grey</item>
-        <item tools:targetApi="11" name="android:titleTextStyle">@style/GreyActionBar.TextStyle</item>
+        <item name="background">@color/black</item>
+        <item name="titleTextStyle">@style/DarkActionBar.TextStyle</item>
+        <item name="android:background">@color/black</item>
+        <item tools:targetApi="11" name="android:titleTextStyle">@style/DarkActionBar.TextStyle</item>
     </style>
-    <style name="GreyActionBar.TextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="DarkActionBar.TextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="GreyActionBar.ButtonOverflow" parent="@style/Widget.AppCompat.Light.Base.ActionButton.Overflow">
+    <style name="DarkActionBar.ButtonOverflow" parent="@style/Widget.AppCompat.Light.Base.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_action_core_overflow_white</item>
+    </style>
+    <style name="GreyActionBar"
+           parent="@style/DarkActionBar">
+        <item name="background">@color/grey</item>
+        <item name="android:background">@color/grey</item>
+    </style>
+    <style name="NavyBlueActionBar"
+           parent="@style/DarkActionBar">
+        <item name="background">@color/navy_blue</item>
+        <item name="android:background">@color/navy_blue</item>
     </style>
     <style name="OverlayActionBar"
            parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
