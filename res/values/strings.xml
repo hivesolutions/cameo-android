@@ -14,6 +14,7 @@
     <color name="light_grey">#aaaaaa</color>
     <color name="light_blue">#31abd4</color>
     <color name="navy_blue">#54759e</color>
+    <color name="light_navy_blue">#6c97cc</color>
     <color name="transparent">#00000000</color>
     <color name="black_transparent">#99000000</color>
 </resources>
