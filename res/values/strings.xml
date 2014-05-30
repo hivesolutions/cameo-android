@@ -12,6 +12,7 @@
     <color name="grey">#6d6d6d</color>
     <color name="dark_grey">#4d4d4d</color>
     <color name="light_grey">#aaaaaa</color>
+    <color name="light_light_grey">#bbbbbb</color>
     <color name="light_blue">#31abd4</color>
     <color name="navy_blue">#54759e</color>
     <color name="light_navy_blue">#6c97cc</color>
