@@ -222,7 +222,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
     public static void setLoginLogo(int loginLogo) {
         ProxyRequest.loginLogo = loginLogo;
     }
-    
+
     public ProxyRequestDelegate getDelegate() {
         return delegate;
     }
