@@ -43,6 +43,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -53,10 +54,13 @@ import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     private String loginPath;
+
+    public int logoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +75,22 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         Bundle extras = this.getIntent().getExtras();
         if (extras != null) {
             this.loginPath = extras.getString("LOGIN_PATH");
+            this.logoId = extras.getInt("LOGO_ID");
         }
 
         // removes the title bar from the window (improves readability)
         // and then sets the login layout on it (starts the layout)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setContentView(R.layout.login);
+
+        // in case we've received a valid logo identifier the logo image must be
+        // updated with the associated resrouce (customized view)
+        if (this.logoId != 0) {
+            Drawable logoResource = this.getResources()
+                    .getDrawable(this.logoId);
+            ImageView logo = (ImageView) this.findViewById(R.id.logo);
+            logo.setImageDrawable(logoResource);
+        }
 
         // retrieves the password edit text field and updates it to the
         // sans serif typeface and then updates the transformation method
@@ -115,7 +129,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         parameters.add(new LinkedList<String>(Arrays.asList("password",
                 password.getText().toString())));
 
-        ProxyRequest request = new ProxyRequest(this, this.loginPath, null);
+        ProxyRequest request = new ProxyRequest(this, this.loginPath);
         request.setDelegate(this);
         request.setParameters(parameters);
         request.setUseSession(false);
