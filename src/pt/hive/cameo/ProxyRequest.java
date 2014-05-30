@@ -62,6 +62,19 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
     public static final int LOGIN_REQUEST = 1;
 
     /**
+     * Relative path to the URL that is going to be called in case a login
+     * operation is required, note that the login action is always going to be
+     * show for such operations.
+     */
+    private static String loginPath;
+
+    /**
+     * The reference to the resource that contains the image that is going to be
+     * display in the login screen in case it's required for the request.
+     */
+    private static int loginLogo;
+
+    /**
      * The reference to the delegate object that is going to be used for the
      * calling of the various callback functions for the request. This is
      * required in order to ensure a proper asynchronous approach.
@@ -81,13 +94,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
     private String path;
 
     /**
-     * Relative path to the URL that is going to be called in case a login
-     * operation is required, note that the login action is always going to be
-     * show for such operations.
-     */
-    private String loginPath;
-
-    /**
      * The various GET operation parameters that are going to be encoded to be
      * part of the request query parameters.
      */
@@ -103,16 +109,15 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         this.useSession = true;
     }
 
-    public ProxyRequest(Activity activity, String path, String loginPath) {
+    public ProxyRequest(Activity activity, String path) {
         this();
         this.activity = activity;
         this.path = path;
-        this.loginPath = loginPath;
     }
 
     public static ProxyRequest request(Activity activity, String path,
-            String loginPath, ProxyRequestDelegate delegate) {
-        ProxyRequest request = new ProxyRequest(activity, path, loginPath);
+            ProxyRequestDelegate delegate) {
+        ProxyRequest request = new ProxyRequest(activity, path);
         request.setDelegate(delegate);
         request.execute();
         return request;
@@ -134,7 +139,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         editor.commit();
         ProxyRequest request = new ProxyRequest();
         request.activity = activity;
-        request.loginPath = loginPath;
         request.showLogin();
     }
 
@@ -197,11 +201,28 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         // creates the intent object that represents the login
         // activity and then starts it (pushing it into the screen)
         Intent intent = new Intent(this.activity, LoginActivity.class);
-        intent.putExtra("LOGIN_PATH", this.loginPath);
+        intent.putExtra("LOGIN_PATH", ProxyRequest.loginPath);
+        intent.putExtra("LOGO_ID", ProxyRequest.loginLogo);
         this.activity
                 .startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
     }
 
+    public static String getLoginPath() {
+        return loginPath;
+    }
+
+    public static void setLoginPath(String loginPath) {
+        ProxyRequest.loginPath = loginPath;
+    }
+
+    public static int getLoginLogo() {
+        return loginLogo;
+    }
+
+    public static void setLoginLogo(int loginLogo) {
+        ProxyRequest.loginLogo = loginLogo;
+    }
+    
     public ProxyRequestDelegate getDelegate() {
         return delegate;
     }
