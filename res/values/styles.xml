@@ -5,6 +5,7 @@
         <item name="actionBarStyle">@style/DarkActionBar</item>
         <item name="actionOverflowButtonStyle">@style/DarkActionBar.ButtonOverflow</item>
         <item name="actionMenuTextColor">@color/white</item>
+        <item name="drawerArrowStyle">@style/DarkDrawerArrow</item>
         <item tools:targetApi="11" name="android:actionBarStyle">@style/DarkActionBar</item>
         <item tools:targetApi="11" name="android:actionOverflowButtonStyle">@style/DarkActionBar.ButtonOverflow</item>
         <item tools:targetApi="11" name="android:actionMenuTextColor">@color/white</item>
@@ -60,5 +61,10 @@
     </style>
     <style name="OverlayActionBar.TextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="DarkDrawerArrow" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="thickness">3dp</item>
+        <item name="color">@android:color/white</item>
     </style>
 </resources>
