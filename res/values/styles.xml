@@ -54,6 +54,11 @@
     <style name="OverlayActionBar"
            parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="background">@color/black_transparent</item>
+        <item name="titleTextStyle">@style/OverlayActionBar.TextStyle</item>
         <item name="android:background">@color/black_transparent</item>
+        <item tools:targetApi="11" name="android:titleTextStyle">@style/OverlayActionBar.TextStyle</item>
+    </style>
+    <style name="OverlayActionBar.TextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
