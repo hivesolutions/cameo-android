@@ -38,7 +38,7 @@
     <style name="DarkActionBar.TextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="DarkActionBar.ButtonOverflow" parent="@style/Widget.AppCompat.Light.Base.ActionButton.Overflow">
+    <style name="DarkActionBar.ButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_action_core_overflow_white</item>
     </style>
     <style name="GreyActionBar"
