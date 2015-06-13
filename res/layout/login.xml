@@ -39,6 +39,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@android:color/transparent"
+            android:inputType="text"
             android:singleLine="true"
             android:textCursorDrawable="@null"
             android:typeface="sans"
