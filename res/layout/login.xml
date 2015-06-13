@@ -39,13 +39,13 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@android:color/transparent"
-            android:inputType="text"
             android:singleLine="true"
             android:textCursorDrawable="@null"
             android:typeface="sans"
             android:textColor="#ffffff"
             android:textColorHint="#888888"
             android:textSize="16sp"
+            android:inputType="text"
             android:hint="@string/username" >
             <requestFocus />
         </EditText>
