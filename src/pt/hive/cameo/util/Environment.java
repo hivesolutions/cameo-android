@@ -29,8 +29,18 @@ package pt.hive.cameo.util;
 
 import android.os.Build;
 
+/**
+ * Environment related utilities to be used as short hand calls to more complex
+ * behavior or validating functions.
+ */
 public class Environment {
 
+    /**
+     * Verifies if the current running android environment is considered to be
+     * an honeycomb (android 3.0) or a more up-to-date system.
+     *
+     * @return If the current environment in running is at least honeycomb.
+     */
     public static boolean isHoneycomb() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     }
