@@ -32,16 +32,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.hive.cameo.activities.LoginActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import pt.hive.cameo.activities.LoginActivity;
 
 /**
  * Abstract class responsible for the handling of remote json request that may
@@ -52,8 +51,7 @@ import android.os.AsyncTask;
  *
  * @author João Magalhães <joamag@hive.pt>
  */
-public class ProxyRequest extends AsyncTask<Void, Void, String> implements
-        JsonRequestDelegate {
+public class ProxyRequest extends AsyncTask<Void, Void, String> implements JsonRequestDelegate {
 
     /**
      * Constant value that defined the request login intent value that may be
@@ -115,8 +113,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         this.path = path;
     }
 
-    public static ProxyRequest request(Activity activity, String path,
-            ProxyRequestDelegate delegate) {
+    public static ProxyRequest request(Activity activity, String path, ProxyRequestDelegate delegate) {
         ProxyRequest request = new ProxyRequest(activity, path);
         request.setDelegate(delegate);
         request.execute();
@@ -124,16 +121,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
     }
 
     public static boolean isReady(Activity activity) {
-        SharedPreferences preferences = activity.getSharedPreferences("cameo",
-                Context.MODE_PRIVATE);
+        SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
         return baseUrl != null && sessionId != null;
     }
 
     public static void logout(Activity activity, String loginPath) {
-        SharedPreferences preferences = activity.getSharedPreferences("cameo",
-                Context.MODE_PRIVATE);
+        SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("sessionId");
         editor.commit();
@@ -146,8 +141,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
     protected String doInBackground(Void... params) {
         try {
             return this.load();
-        } catch (ClientProtocolException exception) {
-            throw new RuntimeException(exception);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         } catch (JSONException exception) {
@@ -169,10 +162,8 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         }
     }
 
-    public String load() throws ClientProtocolException, IOException,
-            JSONException {
-        SharedPreferences preferences = this.activity.getSharedPreferences(
-                "cameo", Context.MODE_PRIVATE);
+    public String load() throws IOException, JSONException {
+        SharedPreferences preferences = this.activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
         String urlString = String.format("%s%s", baseUrl, this.path);
@@ -186,8 +177,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         if (this.parameters != null) {
             parameters.addAll(this.parameters);
         }
-        parameters.add(new LinkedList<String>(Arrays.asList("session_id",
-                sessionId)));
+        parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
 
         JsonRequest request = new JsonRequest();
         request.setDelegate(this);
@@ -203,8 +193,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements
         Intent intent = new Intent(this.activity, LoginActivity.class);
         intent.putExtra("LOGIN_PATH", ProxyRequest.loginPath);
         intent.putExtra("LOGO_ID", ProxyRequest.loginLogo);
-        this.activity
-                .startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
+        this.activity.startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
     }
 
     public static String getLoginPath() {

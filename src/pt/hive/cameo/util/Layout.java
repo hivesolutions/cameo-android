@@ -27,15 +27,28 @@
 
 package pt.hive.cameo.util;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 public class Layout {
 
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static Drawable getDrwable(int id, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return context.getResources().getDrawable(id, context.getTheme());
+        } else {
+            return context.getResources().getDrawable(id);
+        }
+    }
+
     public static int dipToPixels(Context context, float dipValue) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dipValue, metrics);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
+
 }

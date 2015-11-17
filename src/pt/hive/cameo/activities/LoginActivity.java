@@ -34,10 +34,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.hive.cameo.Info;
-import pt.hive.cameo.ProxyRequest;
-import pt.hive.cameo.ProxyRequestDelegate;
-import pt.hive.cameo.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -55,6 +51,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import pt.hive.cameo.Info;
+import pt.hive.cameo.ProxyRequest;
+import pt.hive.cameo.ProxyRequestDelegate;
+import pt.hive.cameo.R;
+import pt.hive.cameo.util.Layout;
 
 public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
@@ -86,8 +87,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // in case we've received a valid logo identifier the logo image must be
         // updated with the associated resource (customized view)
         if (this.logoId != 0) {
-            Drawable logoResource = this.getResources()
-                    .getDrawable(this.logoId);
+            Drawable logoResource = Layout.getDrwable(this.logoId, this);
             ImageView logo = (ImageView) this.findViewById(R.id.logo);
             logo.setImageDrawable(logoResource);
         }
@@ -100,8 +100,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         password.setOnKeyListener(new OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN)
-                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     self.login();
                 }
                 return false;
@@ -124,10 +123,8 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         EditText password = (EditText) this.findViewById(R.id.password);
 
         List<List<String>> parameters = new LinkedList<List<String>>();
-        parameters.add(new LinkedList<String>(Arrays.asList("username",
-                username.getText().toString())));
-        parameters.add(new LinkedList<String>(Arrays.asList("password",
-                password.getText().toString())));
+        parameters.add(new LinkedList<String>(Arrays.asList("username", username.getText().toString())));
+        parameters.add(new LinkedList<String>(Arrays.asList("password", password.getText().toString())));
 
         ProxyRequest request = new ProxyRequest(this, this.loginPath);
         request.setDelegate(this);
@@ -153,8 +150,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             // preferences settings so that it may be used latter
             String sessionId = data.getString("session_id");
             String username = data.getString("username");
-            SharedPreferences preferences = this.getSharedPreferences("cameo",
-                    Context.MODE_PRIVATE);
+            SharedPreferences preferences = this.getSharedPreferences("cameo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("sessionId", sessionId);
             editor.putString("username", username);
@@ -170,8 +166,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     @Override
     public void didReceiveError(Object error) {
-        Log.d(Info.TAG,
-                String.format("Error received in login request: %s", error));
+        Log.d(Info.TAG, String.format("Error received in login request: %s", error));
     }
 
     public void handleException(JSONObject data) {

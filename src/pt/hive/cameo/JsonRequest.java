@@ -31,17 +31,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.hive.cameo.net.ClientFactory;
 import android.app.Activity;
 
 public class JsonRequest {
@@ -68,15 +64,12 @@ public class JsonRequest {
         return null;
     }
 
-    public String execute() throws ClientProtocolException, IOException,
-            JSONException {
+    public String execute() throws IOException, JSONException {
         String result = null;
         String url = this.constructUrl();
-        HttpGet get = new HttpGet(url);
-        HttpClient client = ClientFactory.getHttpClient(false);
-        HttpResponse response = client.execute(get);
-        HttpEntity entity = response.getEntity();
-        InputStream stream = entity.getContent();
+        URL _url = new URL(url);
+        URLConnection urlConnection = _url.openConnection();
+        InputStream stream = urlConnection.getInputStream();
 
         try {
             result = JsonRequest.convertStreamToString(stream);
@@ -110,17 +103,14 @@ public class JsonRequest {
     private String constructParameters() {
         StringBuffer buffer = new StringBuffer();
         for (List<String> parameter : this.parameters) {
-            String parameterS = String.format("%s=%s&", parameter.get(0),
-                    parameter.get(1));
+            String parameterS = String.format("%s=%s&", parameter.get(0), parameter.get(1));
             buffer.append(parameterS);
         }
         return buffer.toString();
     }
 
-    private static String convertStreamToString(InputStream stream)
-            throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(stream));
+    private static String convertStreamToString(InputStream stream) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         StringBuilder builder = new StringBuilder();
 
         try {
