@@ -27,6 +27,7 @@
 
 package pt.hive.cameo;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,7 +70,7 @@ public class JsonRequest {
         String url = this.constructUrl();
         URL _url = new URL(url);
         URLConnection urlConnection = _url.openConnection();
-        InputStream stream = urlConnection.getInputStream();
+        InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
 
         try {
             result = JsonRequest.convertStreamToString(stream);
