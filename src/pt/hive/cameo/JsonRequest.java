@@ -41,9 +41,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 
-public class JsonRequest {
+public class JSONRequest {
 
-    private JsonRequestDelegate delegate;
+    private JSONRequestDelegate delegate;
     private Activity activity;
     private String url;
     private List<List<String>> parameters;
@@ -53,7 +53,7 @@ public class JsonRequest {
             return this.execute();
         } catch (final Exception exception) {
             if (this.delegate != null) {
-                final JsonRequest self = this;
+                final JSONRequest self = this;
                 this.activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -73,14 +73,14 @@ public class JsonRequest {
         InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
 
         try {
-            result = JsonRequest.convertStreamToString(stream);
+            result = JSONRequest.convertStreamToString(stream);
         } finally {
             stream.close();
         }
 
         final JSONObject data = new JSONObject(result);
         if (this.delegate != null) {
-            final JsonRequest self = this;
+            final JSONRequest self = this;
             this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -128,11 +128,11 @@ public class JsonRequest {
         return builder.toString();
     }
 
-    public JsonRequestDelegate getDelegate() {
+    public JSONRequestDelegate getDelegate() {
         return delegate;
     }
 
-    public void setDelegate(JsonRequestDelegate delegate) {
+    public void setDelegate(JSONRequestDelegate delegate) {
         this.delegate = delegate;
     }
 

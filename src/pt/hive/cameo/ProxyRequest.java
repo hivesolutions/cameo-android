@@ -51,7 +51,7 @@ import pt.hive.cameo.activities.LoginActivity;
  *
  * @author João Magalhães <joamag@hive.pt>
  */
-public class ProxyRequest extends AsyncTask<Void, Void, String> implements JsonRequestDelegate {
+public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONRequestDelegate {
 
     /**
      * Constant value that defined the request login intent value that may be
@@ -179,7 +179,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JsonR
         }
         parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
 
-        JsonRequest request = new JsonRequest();
+        JSONRequest request = new JSONRequest();
         request.setDelegate(this);
         request.setActivity(this.activity);
         request.setUrl(urlString);

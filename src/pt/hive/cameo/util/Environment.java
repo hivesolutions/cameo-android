@@ -32,6 +32,8 @@ import android.os.Build;
 /**
  * Environment related utilities to be used as short hand calls to more complex
  * behavior or validating functions.
+ * 
+ * @author João Magalhães <joamag@hive.pt>
  */
 public class Environment {
 
