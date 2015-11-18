@@ -47,5 +47,4 @@ public class Layout {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
-
 }
