@@ -73,11 +73,11 @@ public class JSONRequest {
         String url = this.constructUrl();
         URL _url = new URL(url);
         URLConnection urlConnection = _url.openConnection();
-        
+
         if (this.body != null) {
-        	this.writeBody(urlConnection);
+            this.writeBody(urlConnection);
         }
-        
+
         InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
 
         try {
@@ -117,14 +117,14 @@ public class JSONRequest {
         }
         return buffer.toString();
     }
-    
+
     private void writeBody(URLConnection urlConnection) throws IOException {
-    	urlConnection.setDoOutput(true);
-    	urlConnection.setRequestProperty("Content-Type", "application/json");
-    	OutputStream output = urlConnection.getOutputStream();
-    	OutputStreamWriter writer = new OutputStreamWriter(output);
-		writer.write(body.toString());
-		writer.flush();
+        urlConnection.setDoOutput(true);
+        urlConnection.setRequestProperty("Content-Type", "application/json");
+        OutputStream output = urlConnection.getOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writer.write(body.toString());
+        writer.flush();
     }
 
     private static String convertStreamToString(InputStream stream) throws IOException {
@@ -176,7 +176,7 @@ public class JSONRequest {
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
     }
-    
+
     public JSONObject getBody() {
         return body;
     }
