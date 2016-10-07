@@ -96,6 +96,11 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * part of the request query parameters.
      */
     private List<List<String>> parameters;
+    
+    /**
+     * The JSON object to be encoded as the body of a POST request.
+     */
+    private JSONObject body;
 
     /**
      * If a proper session must be created before any remote request is done
@@ -177,13 +182,17 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         if (this.parameters != null) {
             parameters.addAll(this.parameters);
         }
-        parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
+        
+        if (this.useSession) {
+        	parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
+        }
 
         JSONRequest request = new JSONRequest();
         request.setDelegate(this);
         request.setActivity(this.activity);
         request.setUrl(urlString);
         request.setParameters(parameters);
+        request.setBody(this.body);
         return request.load();
     }
 
@@ -226,6 +235,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
+    }
+    
+    public JSONObject getBody() {
+        return body;
+    }
+
+    public void setBody(JSONObject body) {
+        this.body = body;
     }
 
     public boolean isUseSession() {
