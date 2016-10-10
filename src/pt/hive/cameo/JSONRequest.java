@@ -34,10 +34,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +49,7 @@ public class JSONRequest {
     private Activity activity;
     private String url;
     private List<List<String>> parameters;
+    private String requestMethod;
     private JSONObject body;
 
     public String load() {
@@ -72,8 +73,12 @@ public class JSONRequest {
         String result = null;
         String url = this.constructUrl();
         URL _url = new URL(url);
-        URLConnection urlConnection = _url.openConnection();
-
+        HttpURLConnection urlConnection = (HttpURLConnection) _url.openConnection();
+ 
+        if (this.requestMethod != null) {
+        	urlConnection.setRequestMethod(this.requestMethod);
+        }
+       
         if (this.body != null) {
             this.writeBody(urlConnection);
         }
@@ -175,6 +180,14 @@ public class JSONRequest {
 
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
+    }
+    
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String method) {
+        this.requestMethod = method;
     }
 
     public JSONObject getBody() {

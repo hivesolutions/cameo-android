@@ -96,9 +96,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * part of the request query parameters.
      */
     private List<List<String>> parameters;
+    
+    /**
+     * The HTTP method to be set on the request.
+     */
+    private String requestMethod;
 
     /**
-     * The JSON object to be encoded as the body of a POST request.
+     * The JSON object to be encoded as the body of a POST or PUT request.
      */
     private JSONObject body;
 
@@ -192,6 +197,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         request.setActivity(this.activity);
         request.setUrl(urlString);
         request.setParameters(parameters);
+        request.setRequestMethod(this.requestMethod);
         request.setBody(this.body);
         return request.load();
     }
@@ -235,6 +241,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String method) {
+        this.requestMethod = method;
     }
 
     public JSONObject getBody() {
