@@ -98,12 +98,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     private List<List<String>> parameters;
 
     /**
-     * The HTTP method to be set on the request.
+     * The HTTP method to be set on the request, this should be an upper-cased
+     * string like GET, POST, PUT or DELETE.
      */
     private String requestMethod;
 
     /**
-     * The JSON object to be encoded as the body of a POST or PUT request.
+     * The JSON object to be encoded as the body of a a payload based request
+     * liek POST or PUT requests.
      */
     private JSONObject body;
 
