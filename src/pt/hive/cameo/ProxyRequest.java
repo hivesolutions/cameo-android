@@ -98,6 +98,18 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     private List<List<String>> parameters;
 
     /**
+     * The HTTP method to be set on the request, this should be an upper-cased
+     * string like GET, POST, PUT or DELETE.
+     */
+    private String requestMethod;
+
+    /**
+     * The JSON object to be encoded as the body of a a payload based request
+     * liek POST or PUT requests.
+     */
+    private JSONObject body;
+
+    /**
      * If a proper session must be created before any remote request is done
      * using the proxy request infra-structure.
      */
@@ -135,6 +147,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         ProxyRequest request = new ProxyRequest();
         request.activity = activity;
         request.showLogin();
+    }
+
+    public static void setBaseUrl(Context context, String url) {
+        SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("baseUrl", url);
+        editor.commit();
     }
 
     @Override
@@ -177,13 +196,18 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         if (this.parameters != null) {
             parameters.addAll(this.parameters);
         }
-        parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
+
+        if (this.useSession) {
+            parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
+        }
 
         JSONRequest request = new JSONRequest();
         request.setDelegate(this);
         request.setActivity(this.activity);
         request.setUrl(urlString);
         request.setParameters(parameters);
+        request.setRequestMethod(this.requestMethod);
+        request.setBody(this.body);
         return request.load();
     }
 
@@ -226,6 +250,22 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String method) {
+        this.requestMethod = method;
+    }
+
+    public JSONObject getBody() {
+        return body;
+    }
+
+    public void setBody(JSONObject body) {
+        this.body = body;
     }
 
     public boolean isUseSession() {

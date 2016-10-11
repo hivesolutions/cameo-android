@@ -32,10 +32,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +49,8 @@ public class JSONRequest {
     private Activity activity;
     private String url;
     private List<List<String>> parameters;
+    private String requestMethod;
+    private JSONObject body;
 
     public String load() {
         try {
@@ -69,7 +73,16 @@ public class JSONRequest {
         String result = null;
         String url = this.constructUrl();
         URL _url = new URL(url);
-        URLConnection urlConnection = _url.openConnection();
+        HttpURLConnection urlConnection = (HttpURLConnection) _url.openConnection();
+
+        if (this.requestMethod != null) {
+            urlConnection.setRequestMethod(this.requestMethod);
+        }
+
+        if (this.body != null) {
+            this.writeBody(urlConnection);
+        }
+
         InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
 
         try {
@@ -93,7 +106,7 @@ public class JSONRequest {
     }
 
     private String constructUrl() {
-        if (this.parameters == null) {
+        if (this.parameters == null || this.parameters.isEmpty()) {
             return this.url;
         }
         String parameters = this.constructParameters();
@@ -108,6 +121,15 @@ public class JSONRequest {
             buffer.append(parameterS);
         }
         return buffer.toString();
+    }
+
+    private void writeBody(URLConnection urlConnection) throws IOException {
+        urlConnection.setDoOutput(true);
+        urlConnection.setRequestProperty("Content-Type", "application/json");
+        OutputStream output = urlConnection.getOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writer.write(body.toString());
+        writer.flush();
     }
 
     private static String convertStreamToString(InputStream stream) throws IOException {
@@ -158,5 +180,21 @@ public class JSONRequest {
 
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String method) {
+        this.requestMethod = method;
+    }
+
+    public JSONObject getBody() {
+        return body;
+    }
+
+    public void setBody(JSONObject body) {
+        this.body = body;
     }
 }
