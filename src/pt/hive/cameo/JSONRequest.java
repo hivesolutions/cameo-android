@@ -74,11 +74,11 @@ public class JSONRequest {
         String url = this.constructUrl();
         URL _url = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection) _url.openConnection();
- 
+
         if (this.requestMethod != null) {
-        	urlConnection.setRequestMethod(this.requestMethod);
+            urlConnection.setRequestMethod(this.requestMethod);
         }
-       
+
         if (this.body != null) {
             this.writeBody(urlConnection);
         }
@@ -181,7 +181,7 @@ public class JSONRequest {
     public void setParameters(List<List<String>> parameters) {
         this.parameters = parameters;
     }
-    
+
     public String getRequestMethod() {
         return requestMethod;
     }

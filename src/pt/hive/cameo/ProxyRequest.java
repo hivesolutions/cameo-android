@@ -96,7 +96,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * part of the request query parameters.
      */
     private List<List<String>> parameters;
-    
+
     /**
      * The HTTP method to be set on the request.
      */
@@ -145,6 +145,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         ProxyRequest request = new ProxyRequest();
         request.activity = activity;
         request.showLogin();
+    }
+
+    public static void setBaseUrl(Context context, String url) {
+        SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("baseUrl", url);
+        editor.commit();
     }
 
     @Override
