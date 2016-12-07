@@ -27,6 +27,7 @@
 
 package pt.hive.cameo.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
@@ -34,7 +35,8 @@ import android.util.TypedValue;
 
 public class Layout {
 
-    @SuppressWarnings("deprecation")
+    @SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
     public static Drawable getDrwable(int id, Context context) {
         if (Environment.isLollipop()) {
             return context.getResources().getDrawable(id, context.getTheme());
