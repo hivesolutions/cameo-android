@@ -36,7 +36,7 @@ import android.util.TypedValue;
 public class Layout {
 
     @SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public static Drawable getDrwable(int id, Context context) {
         if (Environment.isLollipop()) {
             return context.getResources().getDrawable(id, context.getTheme());
