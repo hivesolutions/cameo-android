@@ -114,7 +114,11 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * using the proxy request infra-structure.
      */
     private boolean useSession;
-    
+
+    /**
+     * The class that is going to be used as reference for the login prompt,
+     * this may be overriden to provide extra functionality.
+     */
     private static Class<? extends LoginActivity> loginActivity = LoginActivity.class;
 
     public ProxyRequest() {
@@ -157,9 +161,9 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         editor.putString("baseUrl", url);
         editor.commit();
     }
-    
+
     public static void setLoginActivity(Class<? extends LoginActivity> loginActivity) {
-       ProxyRequest.loginActivity = loginActivity;
+        ProxyRequest.loginActivity = loginActivity;
     }
 
     @Override

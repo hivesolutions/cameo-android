@@ -118,10 +118,10 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             }
         });
     }
-    
+
     protected int getLayoutId() {
         return R.layout.login;
-     }
+    }
 
     protected void login() {
         EditText username = (EditText) this.findViewById(R.id.username);
