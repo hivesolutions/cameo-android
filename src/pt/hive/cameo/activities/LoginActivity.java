@@ -82,7 +82,8 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // removes the title bar from the window (improves readability)
         // and then sets the login layout on it (starts the layout)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.setContentView(R.layout.login);
+        int layoutId = this.getLayoutId();
+        this.setContentView(layoutId);
 
         // in case we've received a valid logo identifier the logo image must be
         // updated with the associated resource (customized view)
@@ -117,8 +118,12 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             }
         });
     }
+    
+    protected int getLayoutId() {
+        return R.layout.login;
+     }
 
-    private void login() {
+    protected void login() {
         EditText username = (EditText) this.findViewById(R.id.username);
         EditText password = (EditText) this.findViewById(R.id.password);
 

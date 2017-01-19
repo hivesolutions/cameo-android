@@ -114,6 +114,8 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * using the proxy request infra-structure.
      */
     private boolean useSession;
+    
+    private static Class<? extends LoginActivity> loginActivity = LoginActivity.class;
 
     public ProxyRequest() {
         this.useSession = true;
@@ -154,6 +156,10 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("baseUrl", url);
         editor.commit();
+    }
+    
+    public static void setLoginActivity(Class<? extends LoginActivity> loginActivity) {
+       ProxyRequest.loginActivity = loginActivity;
     }
 
     @Override
@@ -214,7 +220,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     public void showLogin() {
         // creates the intent object that represents the login
         // activity and then starts it (pushing it into the screen)
-        Intent intent = new Intent(this.activity, LoginActivity.class);
+        Intent intent = new Intent(this.activity, ProxyRequest.loginActivity);
         intent.putExtra("LOGIN_PATH", ProxyRequest.loginPath);
         intent.putExtra("LOGO_ID", ProxyRequest.loginLogo);
         this.activity.startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
