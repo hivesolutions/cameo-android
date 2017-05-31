@@ -1,3 +1,3 @@
-# Cameo Android
+# [Cameo Android](http://cameo-android.hive.pt/)
 
-The android version of the cameo framework.
+The android version of the Cameo framework.
