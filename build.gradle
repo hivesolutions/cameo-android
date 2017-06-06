@@ -4,6 +4,8 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:2.3.2"
+		classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7"
+		classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
     }
 }
 
@@ -11,6 +13,7 @@ allprojects {
     repositories {
         jcenter()
     }
+	tasks.withType(Javadoc).all { enabled = false }
 }
 
 apply plugin: "com.android.library"
@@ -57,3 +60,30 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:1.0.2"
     testCompile "junit:junit:4.12"
 }
+
+ext {
+    bintrayRepo = "maven"
+    bintrayName = "cameo-android"
+
+    publishedGroupId = "pt.hive.cameo"
+    libraryName = "Cameo"
+    artifact = "cameo-android"
+
+    libraryDescription = "The Android version of the Cameo framework"
+
+    siteUrl = "https://github.com/hivesolutions/cameo_android"
+    gitUrl = "https://github.com/hivesolutions/cameo_android.git"
+
+    libraryVersion = "0.1.0"
+
+    developerId = "hivesolutions"
+    developerName = "Hive Solutions"
+    developerEmail = "geral@gmail.com"
+
+    licenseName = "The Apache Software License, Version 2.0"
+    licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: "https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle"
+apply from: "https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle"
