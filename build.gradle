@@ -21,7 +21,6 @@ apply plugin: "com.android.library"
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-	publishNonDefault true
 	sourceSets {
         main {
             manifest.srcFile "AndroidManifest.xml"
@@ -74,7 +73,7 @@ ext {
     siteUrl = "https://github.com/hivesolutions/cameo_android"
     gitUrl = "https://github.com/hivesolutions/cameo_android.git"
 
-    libraryVersion = "0.1.0"
+    libraryVersion = "0.1.4"
 
     developerId = "hivesolutions"
     developerName = "Hive Solutions"
