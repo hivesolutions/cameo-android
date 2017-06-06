@@ -4,7 +4,7 @@ The Android version of the Cameo Framework.
 
 ## Deploy
 
-You should be able to deploy the Cameo Framework to the bintray.com repository by using:
+You should be able to deploy the Cameo Framework to the [bintray.com](http://bintray.com) repository by using:
 
 ```bash
 gradle bintrayUpload
