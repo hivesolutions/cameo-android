@@ -142,8 +142,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     public void didReceiveJson(JSONObject data) {
         try {
             // verifies if there's an exception set in the received data, if
-            // that's
-            // the case the exception must be presented to the user
+            // that's the case the exception must be presented to the user
             boolean hasException = data.has("exception");
             if (hasException) {
                 this.handleException(data);
