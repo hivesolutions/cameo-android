@@ -2,6 +2,22 @@
 
 The Android version of the Cameo Framework.
 
+## Usage
+
+```gradle
+allprojects {
+    repositories {
+        maven {
+            url "https://dl.bintray.com/joamag-hive/maven/"
+        }
+    }
+}
+
+dependencies {
+    compile "pt.hive.cameo:cameo_android:0.1.4"
+}
+```
+
 ## Deploy
 
 You should be able to deploy the Cameo Framework to the [bintray.com](http://bintray.com) repository by using:
