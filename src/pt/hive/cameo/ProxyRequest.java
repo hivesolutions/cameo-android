@@ -166,6 +166,15 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         ProxyRequest.loginActivity = loginActivity;
     }
 
+    public String getSessionValue(Activity activity, String key) {
+        return this.getSessionValue(activity, key, "undefined");
+    }
+
+    public String getSessionValue(Activity activity, String key, String fallback) {
+        SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+        return preferences.getString(key, fallback);
+    }
+
     @Override
     protected String doInBackground(Void... params) {
         try {
