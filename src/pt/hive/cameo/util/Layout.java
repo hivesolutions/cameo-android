@@ -37,7 +37,7 @@ public class Layout {
 
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
-    public static Drawable getDrwable(int id, Context context) {
+    public static Drawable getDrawable(int id, Context context) {
         if (Environment.isLollipop()) {
             return context.getResources().getDrawable(id, context.getTheme());
         } else {

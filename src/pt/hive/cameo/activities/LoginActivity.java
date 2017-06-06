@@ -27,13 +27,6 @@
 
 package pt.hive.cameo.activities;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -51,6 +44,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import pt.hive.cameo.Info;
 import pt.hive.cameo.ProxyRequest;
 import pt.hive.cameo.ProxyRequestDelegate;
@@ -88,7 +89,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // in case we've received a valid logo identifier the logo image must be
         // updated with the associated resource (customized view)
         if (this.logoId != 0) {
-            Drawable logoResource = Layout.getDrwable(this.logoId, this);
+            Drawable logoResource = Layout.getDrawable(this.logoId, this);
             ImageView logo = (ImageView) this.findViewById(R.id.logo);
             logo.setImageDrawable(logoResource);
         }

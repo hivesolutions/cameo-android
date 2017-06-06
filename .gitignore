@@ -1,11 +1,21 @@
 *.apk
+*.iml
 *.log
 *.class
+
+.DS_Store
+.externalNativeBuild
 
 local.properties
 
 /.gradle
+/.idea/workspace.xml
+/.idea/libraries
+
+/gradlew
+/gradlew.bat
 
 /bin
 /gen
 /build
+/captures
