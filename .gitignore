@@ -2,6 +2,8 @@
 *.log
 *.class
 
+local.properties
+
 /.gradle
 
 /bin
