@@ -63,11 +63,11 @@ dependencies {
 
 ext {
     bintrayRepo = "maven"
-    bintrayName = "cameo-android"
+    bintrayName = "cameo_android"
 
     publishedGroupId = "pt.hive.cameo"
     libraryName = "Cameo"
-    artifact = "cameo-android"
+    artifact = "cameo_android"
 
     libraryDescription = "The Android version of the Cameo framework"
 
