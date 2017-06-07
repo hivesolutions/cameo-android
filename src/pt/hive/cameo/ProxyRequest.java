@@ -165,7 +165,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     public static void setLoginActivity(Class<? extends LoginActivity> loginActivity) {
         ProxyRequest.loginActivity = loginActivity;
     }
-    
+
     public static String getSessionValue(Activity activity, String key) {
         return ProxyRequest.getSessionValue(activity, key, "undefined");
     }
