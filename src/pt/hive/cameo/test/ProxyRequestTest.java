@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class ProxyRequestTest {
 
     @Test
-    public void addition_isCorrect() throws Exception {
+    public void basic() throws Exception {
         String path = ProxyRequest.getLoginPath();
         assertEquals(path, null);
     }
