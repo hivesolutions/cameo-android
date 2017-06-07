@@ -165,12 +165,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     public static void setLoginActivity(Class<? extends LoginActivity> loginActivity) {
         ProxyRequest.loginActivity = loginActivity;
     }
-
-    public String getSessionValue(Activity activity, String key) {
-        return this.getSessionValue(activity, key, "undefined");
+    
+    public static String getSessionValue(Activity activity, String key) {
+        return ProxyRequest.getSessionValue(activity, key, "undefined");
     }
 
-    public String getSessionValue(Activity activity, String key, String fallback) {
+    public static String getSessionValue(Activity activity, String key, String fallback) {
         SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         return preferences.getString(key, fallback);
     }
