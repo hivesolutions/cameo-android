@@ -2,7 +2,8 @@ sudo: false
 language: android
 android:
   components:
-    - tools-25.2.5
-    - platform-tools-25.2.5
+    - tools
+    - platform-tools
+    - tools
     - build-tools-25.0.3
     - android-25
