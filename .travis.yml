@@ -3,6 +3,5 @@ language: android
 components:
   - tools
   - platform-tools
-  - tools
-  - build-tools-25.0.0
+  - build-tools-25.0.3
   - android-25
