@@ -12,5 +12,5 @@ env:
   - GRADLE_VERSION=3.4.1
 before_script:
   - wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
-  - sudo unzip -q -d /opt/gradle gradle-$GRADLE_VERSION-bin.zip
-  - export PATH=$PATH:/opt/gradle/gradle-$GRADLE_VERSION/bin
+  - sudo unzip -q -d ~/gradle gradle-$GRADLE_VERSION-bin.zip
+  - export PATH=$PATH:~/gradle/gradle-$GRADLE_VERSION/bin
