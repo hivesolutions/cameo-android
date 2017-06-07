@@ -1,6 +1,6 @@
 sudo: false
 language: android
- components:
+components:
   - tools
   - platform-tools
   - tools
