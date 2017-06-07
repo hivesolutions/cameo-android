@@ -12,5 +12,8 @@ public class ProxyRequestTest {
     public void basic() throws Exception {
         String path = ProxyRequest.getLoginPath();
         assertEquals(path, null);
+
+        int logo = ProxyRequest.getLoginLogo();
+        assertEquals(logo, 0);
     }
 }
