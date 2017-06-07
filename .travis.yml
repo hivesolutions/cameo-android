@@ -1,11 +1,6 @@
 sudo: false
 language: android
 jdk: oraclejdk8
-install:
-  - wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
-  - unzip -q -d /opt/gradle gradle-$GRADLE_VERSION-bin.zip
-env:
-  - GRADLE_VERSION=3.4.1
 android:
   components:
     - tools
@@ -13,3 +8,9 @@ android:
     - tools
     - build-tools-25.1.3
     - android-25
+env:
+  - GRADLE_VERSION=3.4.1
+before_script:
+  - wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
+  - unzip -q -d /opt/gradle gradle-$GRADLE_VERSION-bin.zip
+  - export PATH=$PATH:/opt/gradle/gradle-$GRADLE_VERSION/bin
