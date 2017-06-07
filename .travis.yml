@@ -5,5 +5,5 @@ android:
     - tools
     - platform-tools
     - tools
-    - build-tools-25.0.3
+    - build-tools-25.1.3
     - android-25
