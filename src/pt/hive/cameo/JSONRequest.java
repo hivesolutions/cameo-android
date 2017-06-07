@@ -27,6 +27,11 @@
 
 package pt.hive.cameo;
 
+import android.app.Activity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,10 +43,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 
 public class JSONRequest {
 
@@ -105,6 +106,14 @@ public class JSONRequest {
         return result;
     }
 
+    /**
+     * Constructs the complete URL value taking into account the
+     * currently defined parameters that are going to be part as
+     * GET based values/parameters.
+     *
+     * @return The string containing the complete URL with the
+     * GET parameters already included.
+     */
     private String constructUrl() {
         if (this.parameters == null || this.parameters.isEmpty()) {
             return this.url;
