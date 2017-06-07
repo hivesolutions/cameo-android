@@ -1,6 +1,11 @@
 sudo: false
 language: android
 jdk: oraclejdk8
+install:
+  - wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
+  - unzip -q -d /opt/gradle gradle-$GRADLE_VERSION-bin.zip
+env:
+  - GRADLE_VERSION=3.4.1
 android:
   components:
     - tools
