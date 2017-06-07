@@ -6,6 +6,7 @@ android:
     - tools
     - platform-tools
     - tools
+    - build-tools-25.0.3
     - android-25
 env:
   - GRADLE_VERSION=3.4.1
