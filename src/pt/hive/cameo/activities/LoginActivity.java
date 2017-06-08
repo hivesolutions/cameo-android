@@ -64,6 +64,8 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     public int logoId;
 
+    private int layoutId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         if (extras != null) {
             this.loginPath = extras.getString("LOGIN_PATH");
             this.logoId = extras.getInt("LOGO_ID");
+            this.layoutId = extras.getInt("LAYOUT_ID");
         }
 
         // removes the title bar from the window (improves readability)
@@ -118,10 +121,6 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
                 self.login();
             }
         });
-    }
-
-    protected int getLayoutId() {
-        return R.layout.login;
     }
 
     protected void login() {
@@ -185,5 +184,16 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         } catch (JSONException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public int getLayoutId() {
+        if (this.layoutId == 0) {
+            return R.layout.login;
+        }
+        return this.layoutId;
+    }
+
+    public void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
     }
 }
