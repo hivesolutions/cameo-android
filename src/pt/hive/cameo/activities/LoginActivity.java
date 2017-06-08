@@ -42,6 +42,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -185,6 +186,9 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     @Override
     public void didReceiveError(Object error) {
         Log.d(Info.TAG, String.format("Error received in login request: %s", error));
+        TextView errorText = (TextView) this.findViewById(R.id.error);
+        errorText.setTextColor(error.toString());
+        errorText.setVisibility(View.VISIBLE);
     }
 
     public void handleException(JSONObject data) {
