@@ -27,19 +27,20 @@
 
 package pt.hive.cameo;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import pt.hive.cameo.activities.LoginActivity;
 
 /**
@@ -105,7 +106,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     /**
      * The JSON object to be encoded as the body of a a payload based request
-     * liek POST or PUT requests.
+     * like POST or PUT requests.
      */
     private JSONObject body;
 
@@ -117,7 +118,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     /**
      * The class that is going to be used as reference for the login prompt,
-     * this may be overriden to provide extra functionality.
+     * this may be overridden to provide extra functionality.
      */
     private static Class<? extends LoginActivity> loginActivity = LoginActivity.class;
 
@@ -145,7 +146,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         return baseUrl != null && sessionId != null;
     }
 
-    public static void logout(Activity activity, String loginPath) {
+    public static void logout(Activity activity) {
         SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("sessionId");
