@@ -122,12 +122,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      */
     private static Class<? extends LoginActivity> loginActivity = LoginActivity.class;
 
-    /**
-     * The custom login layout (if any) that is going to be set in the login
-     * activity as the main layout, should be compliant with interface.
-     */
-    private static int loginLayout;
-
     public ProxyRequest() {
         this.useSession = true;
     }
@@ -243,7 +237,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         Intent intent = new Intent(this.activity, ProxyRequest.loginActivity);
         intent.putExtra("LOGIN_PATH", ProxyRequest.loginPath);
         intent.putExtra("LOGO_ID", ProxyRequest.loginLogo);
-        intent.putExtra("LAYOUT_ID", ProxyRequest.loginLayout);
         this.activity.startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
     }
 
@@ -261,14 +254,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public static void setLoginLogo(int loginLogo) {
         ProxyRequest.loginLogo = loginLogo;
-    }
-
-    public static int getLoginLayout() {
-        return ProxyRequest.loginLayout;
-    }
-
-    public static void setLoginLayout(int loginLayout) {
-        ProxyRequest.loginLayout = loginLayout;
     }
 
     public ProxyRequestDelegate getDelegate() {

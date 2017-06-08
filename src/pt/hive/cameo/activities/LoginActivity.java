@@ -62,9 +62,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     private String loginPath;
 
-    public int logoId;
-
-    private int layoutId;
+    private int logoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +78,6 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         if (extras != null) {
             this.loginPath = extras.getString("LOGIN_PATH");
             this.logoId = extras.getInt("LOGO_ID");
-            this.layoutId = extras.getInt("LAYOUT_ID");
         }
 
         // removes the title bar from the window (improves readability)
@@ -138,6 +135,10 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         request.execute();
     }
 
+    protected int getLayoutId() {
+        return R.layout.login;
+    }
+
     @Override
     public void didReceiveJson(JSONObject data) {
         try {
@@ -184,16 +185,5 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         } catch (JSONException exception) {
             throw new RuntimeException(exception);
         }
-    }
-
-    public int getLayoutId() {
-        if (this.layoutId == 0) {
-            return R.layout.login;
-        }
-        return this.layoutId;
-    }
-
-    public void setLayoutId(int layoutId) {
-        this.layoutId = layoutId;
     }
 }
