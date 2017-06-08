@@ -19,15 +19,25 @@
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="0dp"
             android:src="@drawable/logo"
             android:contentDescription="@string/logo" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="fill_parent"
+            android:layout_height="16dp"
+            android:layout_below="@+id/logo"
+            android:textColor="#c31f30"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:text="@string/error" />
 
         <ImageView
             android:id="@+id/text_fields"
             android:layout_width="fill_parent"
             android:layout_height="80dp"
-            android:layout_below="@+id/logo"
+            android:layout_below="@+id/error"
             android:background="@drawable/text_fields"
             android:contentDescription="@string/logo" />
 
@@ -35,7 +45,7 @@
             android:id="@+id/username"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/logo"
+            android:layout_below="@+id/error"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@android:color/transparent"

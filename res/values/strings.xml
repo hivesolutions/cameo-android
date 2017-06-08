@@ -5,6 +5,7 @@
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="sign_in">Sign In</string>
+    <string name="error">Error</string>
     <string name="forgot_password">Forgot you password ?</string>
     <string name="copyright">Copyright Hive Solutions 2008&#8211;2017</string>
     <color name="black">#000000</color>
