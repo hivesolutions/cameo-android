@@ -75,11 +75,11 @@ ext {
     siteUrl = "https://github.com/hivesolutions/cameo_android"
     gitUrl = "https://github.com/hivesolutions/cameo_android.git"
 
-    libraryVersion = "0.1.10"
+    libraryVersion = "0.1.11"
 
     developerId = "hivesolutions"
     developerName = "Hive Solutions"
-    developerEmail = "geral@gmail.com"
+    developerEmail = "development@hive.pt"
 
     licenseName = "The Apache Software License, Version 2.0"
     licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
