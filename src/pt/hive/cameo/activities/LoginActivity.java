@@ -68,21 +68,16 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // sets the complete set of information that is considered to be the
+        // base for the login activity
+        this.setBase();
+
         // saves a reference to the current instance under the self variable
         // so that it may be used by any clojure method
         final LoginActivity self = this;
 
-        // tries to retrieve the extras set of parameters from the intent
-        // and in case they exist, tries to retrieve the login path (parameter)
-        Bundle extras = this.getIntent().getExtras();
-        if (extras != null) {
-            this.loginPath = extras.getString("LOGIN_PATH");
-            this.logoId = extras.getInt("LOGO_ID");
-        }
-
-        // removes the title bar from the window (improves readability)
-        // and then sets the login layout on it (starts the layout)
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // retrieves the identifier of the layout view and then sets it
+        // as the base content view for the activity
         int layoutId = this.getLayoutId();
         this.setContentView(layoutId);
 
@@ -133,6 +128,20 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         request.setParameters(parameters);
         request.setUseSession(false);
         request.execute();
+    }
+
+    protected void setBase() {
+        // tries to retrieve the extras set of parameters from the intent
+        // and in case they exist, tries to retrieve the login path (parameter)
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null) {
+            this.loginPath = extras.getString("LOGIN_PATH");
+            this.logoId = extras.getInt("LOGO_ID");
+        }
+
+        // removes the title bar from the window (improves readability)
+        // this should make things clear on the login
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
     protected int getLayoutId() {
