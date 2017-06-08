@@ -79,7 +79,7 @@ ext {
     siteUrl = "https://github.com/hivesolutions/cameo_android"
     gitUrl = "https://github.com/hivesolutions/cameo_android.git"
 
-    libraryVersion = "0.1.11"
+    libraryVersion = "0.1.12"
 
     developerId = "hivesolutions"
     developerName = "Hive Solutions"
