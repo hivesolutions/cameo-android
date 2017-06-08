@@ -18,6 +18,21 @@ dependencies {
 }
 ```
 
+```java
+ProxyRequest.setBaseUrl(this, "http://api.service.com/")
+ProxyRequest.setLoginPath("api/login.json");
+ProxyRequest.setLoginLogo(R.drawable.logo);
+ProxyRequest.request(this, "api/ping.json", new ProxyRequestDelegate() {
+    @Override
+    public void didReceiveJson(JSONObject data) {
+    }
+
+    @Override
+    public void didReceiveError(Object error) {
+    }
+});
+```
+
 ## Deploy
 
 You should be able to deploy the Cameo Framework to the [bintray.com](http://bintray.com) repository by using:
