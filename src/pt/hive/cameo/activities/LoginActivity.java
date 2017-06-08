@@ -38,8 +38,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,47 +70,9 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // base for the login activity
         this.setBase();
 
-        // saves a reference to the current instance under the self variable
-        // so that it may be used by any clojure method
-        final LoginActivity self = this;
-
-        // retrieves the identifier of the layout view and then sets it
-        // as the base content view for the activity
-        int layoutId = this.getLayoutId();
-        this.setContentView(layoutId);
-
-        // in case we've received a valid logo identifier the logo image must be
-        // updated with the associated resource (customized view)
-        if (this.logoId != 0) {
-            Drawable logoResource = Layout.getDrawable(this.logoId, this);
-            ImageView logo = (ImageView) this.findViewById(R.id.logo);
-            logo.setImageDrawable(logoResource);
-        }
-
-        // retrieves the password edit text field and updates it to the
-        // sans serif typeface and then updates the transformation method
-        EditText password = (EditText) this.findViewById(R.id.password);
-        password.setTypeface(Typeface.SANS_SERIF);
-        password.setTransformationMethod(new PasswordTransformationMethod());
-        password.setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    self.login();
-                }
-                return false;
-            }
-        });
-
-        // retrieves the reference to the various button in the current activity
-        // and registers the current instance as the click listener
-        Button signIn = (Button) findViewById(R.id.sign_in);
-        signIn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                self.login();
-            }
-        });
+        // sets the layout part of the display, this should make sure that
+        // all of the elements of the main are properly started
+        this.setLayout();
     }
 
     protected void login() {
@@ -142,6 +102,50 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // removes the title bar from the window (improves readability)
         // this should make things clear on the login
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    protected void setLayout() {
+        // saves a reference to the current instance under the self variable
+        // so that it may be used by any clojure method
+        final LoginActivity self = this;
+
+        // retrieves the identifier of the layout view and then sets it
+        // as the base content view for the activity
+        int layoutId = this.getLayoutId();
+        this.setContentView(layoutId);
+
+        // in case we've received a valid logo identifier the logo image must be
+        // updated with the associated resource (customized view)
+        if (this.logoId != 0) {
+            Drawable logoResource = Layout.getDrawable(this.logoId, this);
+            ImageView logo = (ImageView) this.findViewById(R.id.logo);
+            logo.setImageDrawable(logoResource);
+        }
+
+        // retrieves the password edit text field and updates it to the
+        // sans serif typeface and then updates the transformation method
+        EditText password = (EditText) this.findViewById(R.id.password);
+        password.setTypeface(Typeface.SANS_SERIF);
+        password.setTransformationMethod(new PasswordTransformationMethod());
+        password.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    self.login();
+                }
+                return false;
+            }
+        });
+
+        // retrieves the reference to the various button in the current activity
+        // and registers the current instance as the click listener
+        Button signIn = (Button) findViewById(R.id.sign_in);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                self.login();
+            }
+        });
     }
 
     protected int getLayoutId() {
