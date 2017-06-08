@@ -187,8 +187,10 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     public void didReceiveError(Object error) {
         Log.d(Info.TAG, String.format("Error received in login request: %s", error));
         TextView errorText = (TextView) this.findViewById(R.id.error);
-        errorText.setText(error.toString());
-        errorText.setVisibility(View.VISIBLE);
+        if (errorText != null) {
+            errorText.setText(error.toString());
+            errorText.setVisibility(View.VISIBLE);
+        }
     }
 
     public void handleException(JSONObject data) {
