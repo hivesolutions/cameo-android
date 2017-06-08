@@ -26,11 +26,14 @@
         <TextView
             android:id="@+id/error"
             android:layout_width="fill_parent"
-            android:layout_height="16dp"
+            android:layout_height="28dp"
             android:layout_below="@+id/logo"
-            android:textColor="#c31f30"
+            android:layout_marginBottom="8dp"
+            android:textColor="#ffffff"
+            android:maxLines="1"
             android:textAlignment="center"
-            android:visibility="invisible"
+            android:visibility="gone"
+            android:animateLayoutChanges="true"
             android:text="@string/error" />
 
         <ImageView
