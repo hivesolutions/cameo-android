@@ -59,9 +59,17 @@ import pt.hive.cameo.util.Layout;
 
 public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
-    private String loginPath;
+    /**
+     * The path (URL) as a string for the route that is going to be used
+     * to perform the login operation.
+     */
+    protected String loginPath;
 
-    private int logoId;
+    /**
+     * The identifier (as an integer) of the resource to be displayed as
+     * the logo in the associated login view.
+     */
+    protected int logoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
