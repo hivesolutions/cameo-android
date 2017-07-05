@@ -53,6 +53,24 @@ public class JSONRequest {
     private String requestMethod;
     private JSONObject body;
 
+    private static String convertStreamToString(InputStream stream) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        StringBuilder builder = new StringBuilder();
+
+        try {
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                builder.append(line + "\n");
+            }
+        } finally {
+            stream.close();
+        }
+        return builder.toString();
+    }
+
     public String load() {
         try {
             return this.execute();
@@ -139,24 +157,6 @@ public class JSONRequest {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         writer.write(body.toString());
         writer.flush();
-    }
-
-    private static String convertStreamToString(InputStream stream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        StringBuilder builder = new StringBuilder();
-
-        try {
-            while (true) {
-                String line = reader.readLine();
-                if (line == null) {
-                    break;
-                }
-                builder.append(line + "\n");
-            }
-        } finally {
-            stream.close();
-        }
-        return builder.toString();
     }
 
     public JSONRequestDelegate getDelegate() {

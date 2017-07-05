@@ -134,27 +134,31 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // retrieves the password edit text field and updates it to the
         // sans serif typeface and then updates the transformation method
         EditText password = (EditText) this.findViewById(R.id.password);
-        password.setTypeface(Typeface.SANS_SERIF);
-        password.setTransformationMethod(new PasswordTransformationMethod());
-        password.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    self.login();
+        if (password != null) {
+            password.setTypeface(Typeface.SANS_SERIF);
+            password.setTransformationMethod(new PasswordTransformationMethod());
+            password.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        self.login();
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
 
         // retrieves the reference to the various button in the current activity
         // and registers the current instance as the click listener
         Button signIn = (Button) findViewById(R.id.sign_in);
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                self.login();
-            }
-        });
+        if (signIn != null) {
+            signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    self.login();
+                }
+            });
+        }
     }
 
     protected int getLayoutId() {
