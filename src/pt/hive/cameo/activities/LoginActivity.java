@@ -85,12 +85,12 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     }
 
     protected void login() {
-        EditText username = (EditText) this.findViewById(R.id.username);
-        EditText password = (EditText) this.findViewById(R.id.password);
+        EditText username = (EditText) this.findViewById(this.getUsernameId());
+        EditText password = (EditText) this.findViewById(this.getPasswordId());
 
-        List<List<String>> parameters = new LinkedList<List<String>>();
-        parameters.add(new LinkedList<String>(Arrays.asList("username", username.getText().toString())));
-        parameters.add(new LinkedList<String>(Arrays.asList("password", password.getText().toString())));
+        List<List<String>> parameters = new LinkedList<>();
+        parameters.add(new LinkedList<>(Arrays.asList("username", username.getText().toString())));
+        parameters.add(new LinkedList<>(Arrays.asList("password", password.getText().toString())));
 
         ProxyRequest request = new ProxyRequest(this, this.loginPath);
         request.setDelegate(this);
@@ -127,13 +127,13 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // updated with the associated resource (customized view)
         if (this.logoId != 0) {
             Drawable logoResource = Layout.getDrawable(this.logoId, this);
-            ImageView logo = (ImageView) this.findViewById(R.id.logo);
+            ImageView logo = (ImageView) this.findViewById(this.getLogoId());
             logo.setImageDrawable(logoResource);
         }
 
         // retrieves the password edit text field and updates it to the
         // sans serif typeface and then updates the transformation method
-        EditText password = (EditText) this.findViewById(R.id.password);
+        EditText password = (EditText) this.findViewById(this.getPasswordId());
         if (password != null) {
             password.setTypeface(Typeface.SANS_SERIF);
             password.setTransformationMethod(new PasswordTransformationMethod());
@@ -150,7 +150,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
         // retrieves the reference to the various button in the current activity
         // and registers the current instance as the click listener
-        Button signIn = (Button) findViewById(R.id.sign_in);
+        Button signIn = (Button) findViewById(this.getSigninId());
         if (signIn != null) {
             signIn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -163,6 +163,26 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
     protected int getLayoutId() {
         return R.layout.login;
+    }
+
+    protected int getUsernameId() {
+        return R.id.username;
+    }
+
+    protected int getPasswordId() {
+        return R.id.password;
+    }
+
+    protected int getSigninId() {
+        return R.id.sign_in;
+    }
+
+    protected int getLogoId() {
+        return R.id.logo;
+    }
+
+    protected int getErrorId() {
+        return R.id.error;
     }
 
     @Override
@@ -198,7 +218,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     @Override
     public void didReceiveError(Object error) {
         Log.d(Info.TAG, String.format("Error received in login request: %s", error));
-        TextView errorText = (TextView) this.findViewById(R.id.error);
+        TextView errorText = (TextView) this.findViewById(this.getErrorId());
         if (errorText != null) {
             errorText.setText(error.toString());
             errorText.setVisibility(View.VISIBLE);
