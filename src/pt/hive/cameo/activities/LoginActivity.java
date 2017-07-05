@@ -148,7 +148,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             });
         }
 
-        // retrieves the reference to the various button in the current activity
+        // retrieves the reference to the sign in button in the current activity
         // and registers the current instance as the click listener
         Button signIn = (Button) findViewById(this.getSigninId());
         if (signIn != null) {
