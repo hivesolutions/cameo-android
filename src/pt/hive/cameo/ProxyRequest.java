@@ -72,42 +72,50 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * display in the login screen in case it's required for the request.
      */
     private static int loginLogo;
+
     /**
      * The class that is going to be used as reference for the login prompt,
      * this may be overridden to provide extra functionality.
      */
     private static Class<? extends LoginActivity> loginActivity = LoginActivity.class;
+
     /**
      * The reference to the delegate object that is going to be used for the
      * calling of the various callback functions for the request. This is
      * required in order to ensure a proper asynchronous approach.
      */
     private ProxyRequestDelegate delegate;
+
     /**
      * The context object that is going to be used for resolution of global
      * values this is required in order for the request to work properly.
      */
     private Activity activity;
+
     /**
      * The relative URL path for the request that is going to be performed, this
      * should be JSON based (eg: api/info.json).
      */
     private String path;
+
     /**
      * The various GET operation parameters that are going to be encoded to be
      * part of the request query parameters.
      */
     private List<List<String>> parameters;
+
     /**
      * The HTTP method to be set on the request, this should be an upper-cased
      * string like GET, POST, PUT or DELETE.
      */
     private String requestMethod;
+
     /**
      * The JSON object to be encoded as the body of a a payload based request
      * like POST or PUT requests.
      */
     private JSONObject body;
+
     /**
      * If a proper session must be created before any remote request is done
      * using the proxy request infra-structure.
@@ -126,6 +134,21 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public static ProxyRequest request(Activity activity, String path, ProxyRequestDelegate delegate) {
         ProxyRequest request = new ProxyRequest(activity, path);
+        request.setDelegate(delegate);
+        request.execute();
+        return request;
+    }
+
+    public static ProxyRequest request(
+            Activity activity,
+            String path,
+            String requestMethod,
+            JSONObject body,
+            ProxyRequestDelegate delegate
+    ) {
+        ProxyRequest request = new ProxyRequest(activity, path);
+        request.setRequestMethod(requestMethod);
+        request.setBody(body);
         request.setDelegate(delegate);
         request.execute();
         return request;
