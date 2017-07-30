@@ -28,7 +28,7 @@
 package pt.hive.cameo.interfaces;
 
 public interface SimpleDelegate {
-    public void didReceiveJson(JSONObject data);
+    public void onSuccess(Object result);
 
-    public void didReceiveError(Object error);
+    public void onError(Object error);
 }
