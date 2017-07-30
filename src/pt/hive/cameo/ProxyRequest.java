@@ -152,13 +152,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     public static ProxyRequest request(
-            Activity activity,
+            Context context,
             String path,
             String requestMethod,
             JSONObject body,
             ProxyRequestDelegate delegate
     ) {
-        ProxyRequest request = new ProxyRequest(activity, path);
+        ProxyRequest request = new ProxyRequest(context, path);
         request.setRequestMethod(requestMethod);
         request.setBody(body);
         request.setDelegate(delegate);
@@ -284,7 +284,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
         // creates the intent object that represents the login
         // activity and then starts it (pushing it into the screen)
-        Intent intent = new Intent(this.activity, ProxyRequest.loginActivity);
+        Intent intent = new Intent(this.context, ProxyRequest.loginActivity);
         intent.putExtra("LOGIN_PATH", ProxyRequest.loginPath);
         intent.putExtra("LOGO_ID", ProxyRequest.loginLogo);
         this.activity.startActivityForResult(intent, ProxyRequest.LOGIN_REQUEST);
