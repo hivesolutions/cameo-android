@@ -90,6 +90,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * The context object that is going to be used for resolution of global
      * values this is required in order for the request to work properly.
      */
+    private Context context;
+
+    /**
+     * The reference to the activity object that is going to be used for
+     * UI related operations that require a visual context.
+     */
     private Activity activity;
 
     /**
@@ -126,14 +132,20 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         this.useSession = true;
     }
 
-    public ProxyRequest(Activity activity, String path) {
+    public ProxyRequest(Context context) {
         this();
-        this.activity = activity;
+        boolean isActivity = Activity.class.isAssignableFrom(context.getClass());
+        this.context = context;
+        this.activity = isActivity ? (Activity) context : null;
+    }
+
+    public ProxyRequest(Context context, String path) {
+        this(context);
         this.path = path;
     }
 
-    public static ProxyRequest request(Activity activity, String path, ProxyRequestDelegate delegate) {
-        ProxyRequest request = new ProxyRequest(activity, path);
+    public static ProxyRequest request(Context context, String path, ProxyRequestDelegate delegate) {
+        ProxyRequest request = new ProxyRequest(context, path);
         request.setDelegate(delegate);
         request.execute();
         return request;
@@ -154,20 +166,19 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         return request;
     }
 
-    public static boolean isReady(Activity activity) {
-        SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+    public static boolean isReady(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
         return baseUrl != null && sessionId != null;
     }
 
-    public static void logout(Activity activity) {
-        SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+    public static void logout(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("sessionId");
         editor.commit();
-        ProxyRequest request = new ProxyRequest();
-        request.activity = activity;
+        ProxyRequest request = new ProxyRequest(context);
         request.showLogin();
     }
 
@@ -186,8 +197,8 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         return ProxyRequest.getSessionValue(activity, key, null);
     }
 
-    public static String getSessionValue(Activity activity, String key, String fallback) {
-        SharedPreferences preferences = activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+    public static String getSessionValue(Context context, String key, String fallback) {
+        SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         return preferences.getString(key, fallback);
     }
 
@@ -233,12 +244,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     public String load() throws IOException, JSONException {
-        SharedPreferences preferences = this.activity.getSharedPreferences("cameo", Context.MODE_PRIVATE);
+        SharedPreferences preferences = this.context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
         String urlString = String.format("%s%s", baseUrl, this.path);
 
-        if (this.useSession && ProxyRequest.isReady(this.activity) == false) {
+        if (this.useSession && ProxyRequest.isReady(this.context) == false) {
             this.showLogin();
             return null;
         }
@@ -254,6 +265,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
         JSONRequest request = new JSONRequest();
         request.setDelegate(this);
+        request.setContext(this.context);
         request.setActivity(this.activity);
         request.setUrl(urlString);
         request.setParameters(parameters);
@@ -263,6 +275,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     public void showLogin() {
+        // verifies if the activity value is set and if that's not
+        // the case returns immediately as it's not possible to show
+        // the login for the current context information
+        if (this.activity == null) {
+            return;
+        }
+
         // creates the intent object that represents the login
         // activity and then starts it (pushing it into the screen)
         Intent intent = new Intent(this.activity, ProxyRequest.loginActivity);

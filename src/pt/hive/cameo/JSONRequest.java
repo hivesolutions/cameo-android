@@ -28,6 +28,7 @@
 package pt.hive.cameo;
 
 import android.app.Activity;
+import android.content.Context;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +48,7 @@ import java.util.List;
 public class JSONRequest {
 
     private JSONRequestDelegate delegate;
+    private Context context;
     private Activity activity;
     private String url;
     private List<List<String>> parameters;
@@ -77,12 +79,16 @@ public class JSONRequest {
         } catch (final Exception exception) {
             if (this.delegate != null) {
                 final JSONRequest self = this;
-                this.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        self.delegate.didReceiveError(exception);
-                    }
-                });
+                if (this.activity == null) {
+                    self.delegate.didReceiveError(exception);
+                } else {
+                    this.activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            self.delegate.didReceiveError(exception);
+                        }
+                    });
+                }
             }
         }
         return null;
@@ -113,12 +119,16 @@ public class JSONRequest {
         final JSONObject data = new JSONObject(result);
         if (this.delegate != null) {
             final JSONRequest self = this;
-            this.activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    self.delegate.didReceiveJson(data);
-                }
-            });
+            if (this.activity == null) {
+                self.delegate.didReceiveJson(data);
+            } else {
+                this.activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        self.delegate.didReceiveJson(data);
+                    }
+                });
+            }
         }
 
         return result;
@@ -165,6 +175,14 @@ public class JSONRequest {
 
     public void setDelegate(JSONRequestDelegate delegate) {
         this.delegate = delegate;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public Activity getActivity() {
