@@ -45,14 +45,52 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
+/**
+ * Main class for the remote HTTP request that is responsible
+ * for handling the connection and the serialization/deserialization.
+ */
 public class JSONRequest {
 
+    /**
+     * The delegate that is going to be notified about the changes
+     * in the state for the connection (success and failure).
+     */
     private JSONRequestDelegate delegate;
+
+    /**
+     * The (Android) context that is going to be used for the retrieval
+     * of some global (application) values (eg: settings).
+     */
     private Context context;
+
+    /**
+     * The activity to be used as reference for the possible presentation
+     * of the login activity.
+     */
     private Activity activity;
+
+    /**
+     * The string based URL to be used in the JSON request, should be a full
+     * and canonical URL value.
+     */
     private String url;
+
+    /**
+     * A list contain a series of list for the complete parameters to be sent
+     * in the request, this is going to be either sent via GET parameter if
+     * there's no payload or as URLEncoded if it's a POST request.
+     */
     private List<List<String>> parameters;
+
+    /**
+     * The name of the HTTP method (eg: GET, POST, DELETE, etc.) that is going
+     * to be used in the JSON request.
+     */
     private String requestMethod;
+
+    /**
+     * The body as a JSON object to be sent as the payload of the request.
+     */
     private JSONObject body;
 
     private static String convertStreamToString(InputStream stream) throws IOException {
