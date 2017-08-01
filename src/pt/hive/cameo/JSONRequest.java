@@ -185,10 +185,15 @@ public class JSONRequest {
             // this same result into a string based result value
             result = JSONRequest.convertStreamToString(stream);
         } finally {
+            // closes the base stream as it's not longer going to be used for
+            // any kind of read operation
             stream.close();
         }
 
+        // creates a JSON object from the provided data (may raise exception)
+        // this object may be safely used for JSON structured operations
         final JSONObject data = new JSONObject(result);
+
         if (this.delegate != null) {
             final JSONRequest self = this;
             if (this.activity == null) {
