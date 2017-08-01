@@ -181,6 +181,8 @@ public class JSONRequest {
         InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
 
         try {
+            // retrieves the contents from the input stream and then converts
+            // this same result into a string based result value
             result = JSONRequest.convertStreamToString(stream);
         } finally {
             stream.close();
