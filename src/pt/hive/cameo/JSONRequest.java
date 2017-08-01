@@ -93,6 +93,15 @@ public class JSONRequest {
      */
     private JSONObject body;
 
+    /**
+     * Converts the provided input stream into a valid string sequence eligible
+     * to be used by more conventional method.
+     *
+     * @param stream The stream that is going to be used for reading the complete
+     *               set of data and convert it into a "simple" string value.
+     * @return The final string value retrieved from the input stream.
+     * @throws IOException
+     */
     private static String convertStreamToString(InputStream stream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         StringBuilder builder = new StringBuilder();
