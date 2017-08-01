@@ -27,5 +27,6 @@ public class ProxyRequestTest {
         JSONRequest jsonRequest = new JSONRequest("https://httpbin.stage.hive.pt/ip");
         String result = jsonRequest.execute();
         assertNotEquals(result, null);
+        assertNotEquals(result.compareTo(""), 0);
     }
 }
