@@ -48,6 +48,8 @@ import java.util.List;
 /**
  * Main class for the remote HTTP request that is responsible
  * for handling the connection and the serialization/deserialization.
+ *
+ * @author João Magalhães <joamag@hive.pt>
  */
 public class JSONRequest {
 
@@ -142,15 +144,26 @@ public class JSONRequest {
     }
 
     public String execute() throws IOException, JSONException {
+        // defines the default result value as simple null value
         String result = null;
+
+        // constructs the final URL string value according to the provided
+        // set of parameters defined in the JSON request instance
         String url = this.constructUrl();
+
+        // uses the constructed URL string value to create a URL instance
+        // and then uses that same instance to build an HTTP URL connection
         URL _url = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection) _url.openConnection();
 
+        // in case the request method is defined sets it on the
+        // current URL connection value
         if (this.requestMethod != null) {
             urlConnection.setRequestMethod(this.requestMethod);
         }
 
+        // in case there's a valid body payload defined sets that same payload
+        // in the current URL connection
         if (this.body != null) {
             this.writeBody(urlConnection);
         }
