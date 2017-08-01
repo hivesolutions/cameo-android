@@ -147,6 +147,13 @@ public class JSONRequest {
         URL _url = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection) _url.openConnection();
 
+        // sets a series of general diagnostics purpose headers related with
+        // the current device (eg: OS version, manufacturer, model, etc.)
+        urlConnection.setRequestProperty("X-Android-Model", android.os.Build.MODEL);
+        urlConnection.setRequestProperty("X-Android-Manufacturer", android.os.Build.MANUFACTURER);
+        urlConnection.setRequestProperty("X-Android-Product", android.os.Build.PRODUCT);
+        urlConnection.setRequestProperty("X-Android-Version", android.os.Build.VERSION.BASE_OS);
+
         // in case the request method is defined sets it on the
         // current URL connection value
         if (this.requestMethod != null) {
