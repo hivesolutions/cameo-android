@@ -95,6 +95,14 @@ public class JSONRequest {
      */
     private JSONObject body;
 
+    public JSONRequest() {
+    }
+
+    public JSONRequest(String url) {
+        this();
+        this.url = url;
+    }
+
     /**
      * Converts the provided input stream into a valid string sequence eligible
      * to be used by more conventional method.
