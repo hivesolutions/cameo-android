@@ -1,15 +1,10 @@
 package pt.hive.cameo.test;
 
-import org.json.JSONException;
 import org.junit.Test;
 
-import java.io.IOException;
-
-import pt.hive.cameo.JSONRequest;
 import pt.hive.cameo.ProxyRequest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class ProxyRequestTest {
 
@@ -20,13 +15,5 @@ public class ProxyRequestTest {
 
         int logo = ProxyRequest.getLoginLogo();
         assertEquals(logo, 0);
-    }
-
-    @Test
-    public void request() throws IOException, JSONException {
-        JSONRequest jsonRequest = new JSONRequest("http://httpbin.stage.hive.pt/ip");
-        String result = jsonRequest.execute();
-        assertNotEquals(result, null);
-        assertNotEquals(result.compareTo(""), 0);
     }
 }

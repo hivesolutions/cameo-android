@@ -149,10 +149,18 @@ public class JSONRequest {
 
         // sets a series of general diagnostics purpose headers related with
         // the current device (eg: OS version, manufacturer, model, etc.)
-        urlConnection.setRequestProperty("X-Android-Model", android.os.Build.MODEL);
-        urlConnection.setRequestProperty("X-Android-Manufacturer", android.os.Build.MANUFACTURER);
-        urlConnection.setRequestProperty("X-Android-Product", android.os.Build.PRODUCT);
-        urlConnection.setRequestProperty("X-Android-Version", android.os.Build.VERSION.BASE_OS);
+        if (android.os.Build.MODEL != null) {
+            urlConnection.setRequestProperty("X-Android-Model", android.os.Build.MODEL);
+        }
+        if (android.os.Build.MANUFACTURER != null) {
+            urlConnection.setRequestProperty("X-Android-Manufacturer", android.os.Build.MANUFACTURER);
+        }
+        if (android.os.Build.PRODUCT != null) {
+            urlConnection.setRequestProperty("X-Android-Product", android.os.Build.PRODUCT);
+        }
+        if (android.os.Build.VERSION.BASE_OS != null) {
+            urlConnection.setRequestProperty("X-Android-Version", android.os.Build.VERSION.BASE_OS);
+        }
 
         // in case the request method is defined sets it on the
         // current URL connection value
