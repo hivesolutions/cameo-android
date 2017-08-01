@@ -27,7 +27,6 @@
 
 package pt.hive.cameo;
 
-import android.app.Activity;
 import android.content.Context;
 
 import org.json.JSONException;
@@ -64,12 +63,6 @@ public class JSONRequest {
      * of some global (application) values (eg: settings).
      */
     private Context context;
-
-    /**
-     * The activity to be used as reference for the possible presentation
-     * of the login activity.
-     */
-    private Activity activity;
 
     /**
      * The string based URL to be used in the JSON request, should be a full
@@ -135,17 +128,7 @@ public class JSONRequest {
             return this.execute();
         } catch (final Exception exception) {
             if (this.delegate != null) {
-                final JSONRequest self = this;
-                if (this.activity == null) {
-                    self.delegate.didReceiveError(exception);
-                } else {
-                    this.activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            self.delegate.didReceiveError(exception);
-                        }
-                    });
-                }
+                this.delegate.didReceiveError(exception);
             }
         }
         return null;
@@ -192,22 +175,16 @@ public class JSONRequest {
 
         // creates a JSON object from the provided data (may raise exception)
         // this object may be safely used for JSON structured operations
-        final JSONObject data = new JSONObject(result);
+        JSONObject data = new JSONObject(result);
 
+        // verifies if there's a delegate currently defined and if that's
+        // the case calls it using the proper strategy
         if (this.delegate != null) {
-            final JSONRequest self = this;
-            if (this.activity == null) {
-                self.delegate.didReceiveJson(data);
-            } else {
-                this.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        self.delegate.didReceiveJson(data);
-                    }
-                });
-            }
+            this.delegate.didReceiveJson(data);
         }
 
+        // returns the final string based result (contents) to
+        // the caller method
         return result;
     }
 
@@ -260,14 +237,6 @@ public class JSONRequest {
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
     }
 
     public String getUrl() {

@@ -230,16 +230,36 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     @Override
-    public void didReceiveJson(JSONObject data) {
+    public void didReceiveJson(final JSONObject data) {
         if (this.delegate != null) {
-            this.delegate.didReceiveJson(data);
+            if (this.activity == null) {
+                this.delegate.didReceiveJson(data);
+            } else {
+                final ProxyRequest self = this;
+                this.activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        self.delegate.didReceiveJson(data);
+                    }
+                });
+            }
         }
     }
 
     @Override
-    public void didReceiveError(Object error) {
+    public void didReceiveError(final Object error) {
         if (this.delegate != null) {
-            this.delegate.didReceiveError(error);
+            if (this.activity == null) {
+                this.delegate.didReceiveError(error);
+            } else {
+                final ProxyRequest self = this;
+                this.activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        self.delegate.didReceiveError(error);
+                    }
+                });
+            }
         }
     }
 
@@ -263,10 +283,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
         }
 
+        // creates the JSON request object that is going to be used
+        // for the current request, sets the multiple parameters and
+        // then runs the load operations, triggering the network
         JSONRequest request = new JSONRequest();
         request.setDelegate(this);
         request.setContext(this.context);
-        request.setActivity(this.activity);
         request.setUrl(urlString);
         request.setParameters(parameters);
         request.setRequestMethod(this.requestMethod);
