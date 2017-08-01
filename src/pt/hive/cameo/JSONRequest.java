@@ -176,6 +176,8 @@ public class JSONRequest {
             this.writeBody(urlConnection);
         }
 
+        // creates the buffered input stream from the input stream that is
+        // "exposed" by the URL connection
         InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
 
         try {

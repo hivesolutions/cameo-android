@@ -24,7 +24,7 @@ public class ProxyRequestTest {
 
     @Test
     public void request() throws IOException, JSONException {
-        JSONRequest jsonRequest = new JSONRequest("https://httpbin.stage.hive.pt/ip");
+        JSONRequest jsonRequest = new JSONRequest("http://httpbin.stage.hive.pt/ip");
         String result = jsonRequest.execute();
         assertNotEquals(result, null);
         assertNotEquals(result.compareTo(""), 0);
