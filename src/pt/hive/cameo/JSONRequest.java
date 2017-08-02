@@ -96,6 +96,11 @@ public class JSONRequest {
         this.url = url;
     }
 
+    public JSONRequest(String url, List<List<String>> parameters) {
+        this(url);
+        this.parameters = parameters;
+    }
+
     /**
      * Converts the provided input stream into a valid string sequence eligible
      * to be used by more conventional method.
