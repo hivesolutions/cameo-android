@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">cameo</string>
+    <string name="logo">palavra passe</string>
+    <string name="username">utilizador</string>
+    <string name="password">palavra passe</string>
+    <string name="sign_in">Entrar</string>
+    <string name="error">Erro</string>
+    <string name="forgot_password">squeceu-se da sua palavra passe ?</string>
+    <string name="copyright">Copyright Hive Solutions 2008&#8211;2017</string>
+</resources>
