@@ -5,6 +5,8 @@ import java.util.Map;
 /**
  * Should contain a series of global definitions (mostly) string
  * to be used in general purpose operations.
+ *
+ * @author João Magalhães <joamag@hive.pt>
  */
 public class Definitions {
 
