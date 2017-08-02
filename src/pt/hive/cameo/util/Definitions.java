@@ -2,6 +2,10 @@ package pt.hive.cameo.util;
 
 import java.util.Map;
 
+/**
+ * Should contain a series of global definitions (mostly) string
+ * to be used in general purpose operations.
+ */
 public class Definitions {
 
     /**
