@@ -4,6 +4,8 @@
     <string name="logo">palavra passe</string>
     <string name="username">utilizador</string>
     <string name="password">palavra passe</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
     <string name="sign_in">Entrar</string>
     <string name="error">Erro</string>
     <string name="forgot_password">squeceu-se da sua palavra passe ?</string>
