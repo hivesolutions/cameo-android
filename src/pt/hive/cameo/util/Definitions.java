@@ -14,8 +14,8 @@ public class Definitions {
         return getHttpBinUrl("http://");
     }
 
-    public static String getHttpBinUrlSecure() {
-        return getHttpBinUrl("https://");
+    public static String getHttpBinUrl(boolean secure) {
+        return secure ? getHttpBinUrl("https://") : getHttpBinUrl("http://");
     }
 
     public static String getHttpBinUrl(String prefix) {
