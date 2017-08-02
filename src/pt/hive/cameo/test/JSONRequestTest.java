@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Map;
 
 import pt.hive.cameo.JSONRequest;
 import pt.hive.cameo.util.Definitions;
@@ -15,9 +14,7 @@ public class JSONRequestTest {
 
     @Test
     public void basic() throws IOException, JSONException {
-        Map<String, String> environ = System.getenv();
-        String httpBinUrl = environ.containsKey("HTTPBIN") ?
-                environ.get("HTTPBIN") : Definitions.HTTPBIN_URL;
+        String httpBinUrl = Definitions.getHttpBinUrl();
         JSONRequest jsonRequest = new JSONRequest(httpBinUrl + "/get");
         String result = jsonRequest.execute();
         assertNotEquals(result, null);
