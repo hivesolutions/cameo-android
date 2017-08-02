@@ -12,9 +12,9 @@ public class Definitions {
 
     public static String getHttpBinUrl(String prefix) {
         Map<String, String> environ = System.getenv();
-        String httpbinHost = environ.containsKey("HTTPBIN") ?
+        String httpBinHost = environ.containsKey("HTTPBIN") ?
                 environ.get("HTTPBIN") : HTTPBIN_HOST;
-        return prefix + httpbinHost;
+        return prefix + httpBinHost;
     }
 
 }
