@@ -38,7 +38,7 @@ import android.os.Build;
 public class Environment {
 
     /**
-     * Verifies if the current running android environment is considered to be
+     * Verifies if the current running Android environment is considered to be
      * an Honeycomb (Android 3.0) or a more up-to-date system.
      *
      * @return If the current environment in running is at least Honeycomb.
@@ -48,12 +48,22 @@ public class Environment {
     }
 
     /**
-     * Verifies if the current running android environment is considered to be
+     * Verifies if the current running Android environment is considered to be
      * an Lollipop (Android 5.0) or a more up-to-date system.
      *
      * @return If the current environment in running is at least Lollipop.
      */
     public static boolean isLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    /**
+     * Verifies if the current running Android environment is considered to be
+     * an Marshmallow (Android 6.0) or a more up-to-date system.
+     *
+     * @return If the current environment in running is at least Marshmallow.
+     */
+    public static boolean isMarshmallow() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 }
