@@ -257,7 +257,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     @Override
     public void didReceiveJson(final JSONRequest request, final JSONObject data) {
         Object meta = request.getMeta();
-        if (meta != null) {
+        if (meta != null && this.activity != null) {
             final ProgressDialog progressDialog = (ProgressDialog) meta;
             this.activity.runOnUiThread(new Runnable() {
                 @Override
@@ -287,7 +287,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     @Override
     public void didReceiveError(final JSONRequest request, final Object error) {
         Object meta = request.getMeta();
-        if (meta != null) {
+        if (meta != null && this.activity != null) {
             final ProgressDialog progressDialog = (ProgressDialog) meta;
             this.activity.runOnUiThread(new Runnable() {
                 @Override
@@ -341,7 +341,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
         // in case the (loading) dialog window should be shown the request
         // in the main UI thread is performed (safely)
-        if (this.showDialog) {
+        if (this.showDialog && this.activity != null) {
             this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
