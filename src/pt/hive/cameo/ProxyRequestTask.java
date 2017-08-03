@@ -25,38 +25,30 @@
  __license__   = Apache License, Version 2.0
  */
 
-package pt.hive.cameo.test;
+package pt.hive.cameo;
+
+import android.os.AsyncTask;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-import pt.hive.cameo.JSONRequest;
-import pt.hive.cameo.util.Definitions;
+public class ProxyRequestTask extends AsyncTask<Void, Void, String> {
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+    ProxyRequest proxyRequest;
 
-public class JSONRequestTest {
+    public ProxyRequestTask(ProxyRequest proxyRequest) {
+        this.proxyRequest = proxyRequest;
+    }
 
-    @Test
-    public void basic() throws IOException, JSONException {
-        String httpBinUrl = Definitions.getHttpBinUrl();
-
-        JSONRequest jsonRequest = new JSONRequest(httpBinUrl + "/get");
-        String result = jsonRequest.execute();
-        assertNotEquals(result, null);
-        assertNotEquals(result.compareTo(""), 0);
-
-        jsonRequest = new JSONRequest(httpBinUrl + "/get",
-                Arrays.asList(Arrays.asList("message", "hello")));
-        result = jsonRequest.execute();
-        JSONObject data = new JSONObject(result);
-        assertNotEquals(result, null);
-        assertNotEquals(result.compareTo(""), 0);
-        assertEquals(data.getJSONObject("args").getString("message").compareTo("hello"), 0);
+    @Override
+    protected String doInBackground(Void... params) {
+        try {
+            return this.proxyRequest.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        } catch (JSONException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 }

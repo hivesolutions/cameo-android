@@ -377,7 +377,7 @@ public class ProxyRequest implements JSONRequestDelegate {
     }
 
     public void execute() {
-        ProxyTask task = new ProxyTask(this);
+        ProxyRequestTask task = new ProxyRequestTask(this);
         task.execute();
     }
 
