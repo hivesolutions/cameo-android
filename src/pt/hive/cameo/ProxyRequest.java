@@ -364,6 +364,11 @@ public class ProxyRequest implements JSONRequestDelegate {
         return request.load();
     }
 
+    public void execute() {
+        ProxyTask task = new ProxyTask(this);
+        task.execute();
+    }
+
     public void showLogin() {
         // verifies if the activity value is set and if that's not
         // the case returns immediately as it's not possible to show
@@ -434,11 +439,6 @@ public class ProxyRequest implements JSONRequestDelegate {
 
     public void setUseSession(boolean useSession) {
         this.useSession = useSession;
-    }
-
-    private void execute() {
-        ProxyTask task = new ProxyTask(this);
-        task.execute();
     }
 
     private void notifySuccess(final JSONObject data) {
