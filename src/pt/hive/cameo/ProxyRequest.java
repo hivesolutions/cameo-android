@@ -309,6 +309,8 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
                     self.notifyError(error);
                 }
             });
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return;
         }
 
