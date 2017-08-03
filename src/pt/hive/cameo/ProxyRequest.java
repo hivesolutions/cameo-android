@@ -30,9 +30,11 @@ package pt.hive.cameo;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,6 +137,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      */
     private boolean useSession;
 
+    /**
+     * Simple flag that control if a modal window confirming the error should
+     * be displayed in case an error occurs for the request.
+     */
+    private boolean confirmError;
+
     public ProxyRequest() {
         this.useSession = true;
     }
@@ -159,9 +167,10 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             Context context,
             String path,
             boolean showDialog,
+            boolean confirmError,
             ProxyRequestDelegate delegate
     ) {
-        return request(context, path, null, null, showDialog, delegate);
+        return request(context, path, null, null, showDialog, confirmError, delegate);
     }
 
     public static ProxyRequest request(
@@ -171,7 +180,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             JSONObject body,
             ProxyRequestDelegate delegate
     ) {
-        return request(context, path, requestMethod, body, false, delegate);
+        return request(context, path, requestMethod, body, false, false, delegate);
     }
 
     public static ProxyRequest request(
@@ -180,12 +189,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             String requestMethod,
             JSONObject body,
             boolean showDialog,
+            boolean confirmError,
             ProxyRequestDelegate delegate
     ) {
         ProxyRequest request = new ProxyRequest(context, path);
         request.setRequestMethod(requestMethod);
         request.setBody(body);
         request.setShowDialog(showDialog);
+        request.setConfirmError(confirmError);
         request.setDelegate(delegate);
         request.execute();
         return request;
@@ -267,21 +278,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             });
         }
 
-        if (this.delegate == null) {
-            return;
-        }
-
-        if (this.activity == null) {
-            this.delegate.didReceiveJson(this, data);
-        } else {
-            final ProxyRequest self = this;
-            this.activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    self.delegate.didReceiveJson(self, data);
-                }
-            });
-        }
+        this.notifySuccess(data);
     }
 
     @Override
@@ -297,21 +294,25 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             });
         }
 
-        if (this.delegate == null) {
+        if (this.confirmError && this.activity != null) {
+            final ProxyRequest self = this;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
+            builder.setMessage(R.string.retry_notice);
+            builder.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    self.execute();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    self.notifyError(error);
+                }
+            });
             return;
         }
 
-        if (this.activity == null) {
-            this.delegate.didReceiveError(this, error);
-        } else {
-            final ProxyRequest self = this;
-            this.activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    self.delegate.didReceiveError(self, error);
-                }
-            });
-        }
+        this.notifyError(error);
     }
 
     public String load() throws IOException, JSONException {
@@ -429,5 +430,49 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public void setUseSession(boolean useSession) {
         this.useSession = useSession;
+    }
+
+    public boolean isConfirmError() {
+        return this.confirmError;
+    }
+
+    public void setConfirmError(boolean confirmError) {
+        this.confirmError = confirmError;
+    }
+
+    private void notifySuccess(final JSONObject data) {
+        if (this.delegate == null) {
+            return;
+        }
+
+        if (this.activity == null) {
+            this.delegate.didReceiveJson(this, data);
+        } else {
+            final ProxyRequest self = this;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.delegate.didReceiveJson(self, data);
+                }
+            });
+        }
+    }
+
+    private void notifyError(final Object error) {
+        if (this.delegate == null) {
+            return;
+        }
+
+        if (this.activity == null) {
+            this.delegate.didReceiveError(this, error);
+        } else {
+            final ProxyRequest self = this;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.delegate.didReceiveError(self, error);
+                }
+            });
+        }
     }
 }

@@ -5,9 +5,11 @@
     <string name="password">palavra passe</string>
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
+    <string name="retry">Tentar de novo</string>
     <string name="sign_in">Entrar</string>
     <string name="error">Erro</string>
     <string name="loading">A Carregar</string>
-    <string name="forgot_password">Esqueceu-se da sua palavra passe ?</string>
+    <string name="forgot_password">Esqueceu-se da sua palavra passe?</string>
+    <string name="retry_notice">Ocorreu um erro a executar o pedido. Deseja tentar de novo?</string>
     <string name="copyright">Copyright Hive Solutions 2008&#8211;2017</string>
 </resources>

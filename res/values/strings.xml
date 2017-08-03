@@ -6,10 +6,12 @@
     <string name="password">password</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
     <string name="sign_in">Sign In</string>
     <string name="error">Error</string>
     <string name="loading">Loading</string>
-    <string name="forgot_password">Forgot you password ?</string>
+    <string name="forgot_password">Forgot you password?</string>
+    <string name="retry_notice">There was an error performing the request. Do you want to retry?</string>
     <string name="copyright">Copyright Hive Solutions 2008&#8211;2017</string>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
