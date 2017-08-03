@@ -33,6 +33,12 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
+/**
+ * Task class responsible for the execution of the proxy
+ * JSON request inside a background executor.
+ *
+ * @author João Magalhães <joamag@hive.pt>
+ */
 public class ProxyRequestTask extends AsyncTask<Void, Void, String> {
 
     ProxyRequest proxyRequest;
