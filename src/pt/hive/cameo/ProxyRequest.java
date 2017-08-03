@@ -145,10 +145,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     public static ProxyRequest request(Context context, String path, ProxyRequestDelegate delegate) {
-        ProxyRequest request = new ProxyRequest(context, path);
-        request.setDelegate(delegate);
-        request.execute();
-        return request;
+        return request(context, path, null, null, delegate);
     }
 
     public static ProxyRequest request(
@@ -231,35 +228,37 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     @Override
     public void didReceiveJson(final JSONObject data) {
-        if (this.delegate != null) {
-            if (this.activity == null) {
-                this.delegate.didReceiveJson(data);
-            } else {
-                final ProxyRequest self = this;
-                this.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        self.delegate.didReceiveJson(data);
-                    }
-                });
-            }
+        if (this.delegate == null) {
+            return;
+        }
+        if (this.activity == null) {
+            this.delegate.didReceiveJson(data);
+        } else {
+            final ProxyRequest self = this;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.delegate.didReceiveJson(data);
+                }
+            });
         }
     }
 
     @Override
     public void didReceiveError(final Object error) {
-        if (this.delegate != null) {
-            if (this.activity == null) {
-                this.delegate.didReceiveError(error);
-            } else {
-                final ProxyRequest self = this;
-                this.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        self.delegate.didReceiveError(error);
-                    }
-                });
-            }
+        if (this.delegate == null) {
+            return;
+        }
+        if (this.activity == null) {
+            this.delegate.didReceiveError(error);
+        } else {
+            final ProxyRequest self = this;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.delegate.didReceiveError(error);
+                }
+            });
         }
     }
 
