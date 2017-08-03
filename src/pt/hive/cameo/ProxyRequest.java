@@ -342,10 +342,22 @@ public class ProxyRequest implements JSONRequestDelegate {
             this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    // verifies if the last response timestamp is set and if that's
+                    // the case returns immediately as the response has already been
+                    // received (cannot show the progress dialog)
+                    if (request.getLastResponse() != 0) {
+                        return;
+                    }
+
+                    // creates the progress dialog modal box and show it notifying the
+                    // end user about the background activity in execution
                     ProgressDialog progressDialog = new ProgressDialog(self.context);
                     progressDialog.setIndeterminate(true);
                     progressDialog.setMessage(self.context.getString(R.string.loading));
                     progressDialog.show();
+
+                    // sets the meta field of the request with the progress dialog reference
+                    // so that latter it may be used to hide the progress dialog
                     request.setMeta(progressDialog);
                 }
             });

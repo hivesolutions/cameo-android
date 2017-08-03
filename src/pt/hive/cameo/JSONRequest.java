@@ -89,6 +89,12 @@ public class JSONRequest {
     private JSONObject body;
 
     /**
+     * The timestamp of the last received response or error from the server
+     * side, may be used to determine the state.
+     */
+    private long lastResponse;
+
+    /**
      * Small meta information object that may be used to provide some extra
      * content to the caller method/instance.
      */
@@ -141,6 +147,8 @@ public class JSONRequest {
             if (this.delegate != null) {
                 this.delegate.didReceiveError(this, exception);
             }
+        } finally {
+            this.lastResponse = System.currentTimeMillis();
         }
         return null;
     }
@@ -295,6 +303,14 @@ public class JSONRequest {
 
     public void setBody(JSONObject body) {
         this.body = body;
+    }
+
+    public long getLastResponse() {
+        return lastResponse;
+    }
+
+    public void setLastResponse(long lastResponse) {
+        this.lastResponse = lastResponse;
     }
 
     public Object getMeta() {
