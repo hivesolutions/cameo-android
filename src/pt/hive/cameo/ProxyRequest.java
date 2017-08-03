@@ -296,21 +296,26 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
         if (this.confirmError && this.activity != null) {
             final ProxyRequest self = this;
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
-            builder.setMessage(R.string.retry_notice);
-            builder.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    self.execute();
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            this.activity.runOnUiThread(new Runnable() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    self.notifyError(error);
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(self.activity);
+                    builder.setMessage(R.string.retry_notice);
+                    builder.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            self.execute();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            self.notifyError(error);
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             });
-            AlertDialog dialog = builder.create();
-            dialog.show();
             return;
         }
 
