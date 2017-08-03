@@ -33,7 +33,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 
 import org.json.JSONException;
@@ -47,7 +46,7 @@ import java.util.List;
 import pt.hive.cameo.activities.LoginActivity;
 
 /**
- * Abstract class responsible for the handling of remote json request that may
+ * Abstract class responsible for the handling of remote JSON request that may
  * or may not require and underlying authentication process.
  * <p>
  * The handling of the authentication should be automatic and the proper panel
@@ -55,7 +54,7 @@ import pt.hive.cameo.activities.LoginActivity;
  *
  * @author João Magalhães <joamag@hive.pt>
  */
-public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONRequestDelegate {
+public class ProxyRequest implements JSONRequestDelegate {
 
     /**
      * Constant value that defined the request login intent value that may be
@@ -94,6 +93,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * lifecycle indicating the progress of the operation.
      */
     private boolean showDialog;
+
+    /**
+     * Simple flag that controls if a modal window confirming the error should
+     * be displayed in case an error occurs for the request. Using that window
+     * it's possible for the user to retry the request.
+     */
+    private boolean confirmError;
 
     /**
      * The context object that is going to be used for resolution of global
@@ -136,12 +142,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * using the proxy request infra-structure.
      */
     private boolean useSession;
-
-    /**
-     * Simple flag that control if a modal window confirming the error should
-     * be displayed in case an error occurs for the request.
-     */
-    private boolean confirmError;
 
     public ProxyRequest() {
         this.useSession = true;
@@ -252,17 +252,6 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public static void setLoginLogo(int loginLogo) {
         ProxyRequest.loginLogo = loginLogo;
-    }
-
-    @Override
-    protected String doInBackground(Void... params) {
-        try {
-            return this.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        } catch (JSONException exception) {
-            throw new RuntimeException(exception);
-        }
     }
 
     @Override
@@ -399,12 +388,20 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         this.delegate = delegate;
     }
 
-    public boolean getShowDialog() {
+    public boolean isShowDialog() {
         return this.showDialog;
     }
 
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
+    }
+
+    public boolean isConfirmError() {
+        return this.confirmError;
+    }
+
+    public void setConfirmError(boolean confirmError) {
+        this.confirmError = confirmError;
     }
 
     public List<List<String>> getParameters() {
@@ -439,12 +436,9 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         this.useSession = useSession;
     }
 
-    public boolean isConfirmError() {
-        return this.confirmError;
-    }
-
-    public void setConfirmError(boolean confirmError) {
-        this.confirmError = confirmError;
+    private void execute() {
+        ProxyTask task = new ProxyTask(this);
+        task.execute();
     }
 
     private void notifySuccess(final JSONObject data) {
