@@ -258,8 +258,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     public void didReceiveJson(final JSONRequest request, final JSONObject data) {
         Object meta = request.getMeta();
         if (meta != null) {
-            ProgressDialog progressDialog = (ProgressDialog) meta;
-            progressDialog.dismiss();
+            final ProgressDialog progressDialog = (ProgressDialog) meta;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                }
+            });
         }
 
         if (this.delegate == null) {
@@ -283,8 +288,13 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     public void didReceiveError(final JSONRequest request, final Object error) {
         Object meta = request.getMeta();
         if (meta != null) {
-            ProgressDialog progressDialog = (ProgressDialog) meta;
-            progressDialog.dismiss();
+            final ProgressDialog progressDialog = (ProgressDialog) meta;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                }
+            });
         }
 
         if (this.delegate == null) {
@@ -305,7 +315,11 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     public String load() throws IOException, JSONException {
+        final ProxyRequest self = this;
+
         Object meta = null;
+        final JSONRequest request = new JSONRequest();
+
         SharedPreferences preferences = this.context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
@@ -325,18 +339,24 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
         }
 
+        // in case the (loading) dialog window should be shown the request
+        // in the main UI thread is performed (safely)
         if (this.showDialog) {
-            ProgressDialog progressDialog = new ProgressDialog(this.context);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage(this.context.getString(R.string.loading));
-            progressDialog.show();
-            meta = progressDialog;
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ProgressDialog progressDialog = new ProgressDialog(self.context);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage(self.context.getString(R.string.loading));
+                    progressDialog.show();
+                    request.setMeta(progressDialog);
+                }
+            });
         }
 
-        // creates the JSON request object that is going to be used
+        // populates the JSON request object that is going to be used
         // for the current request, sets the multiple parameters and
-        // then runs the load operations, triggering the network
-        JSONRequest request = new JSONRequest();
+        // then runs the load operations (triggering the network)
         request.setDelegate(this);
         request.setContext(this.context);
         request.setUrl(urlString);
