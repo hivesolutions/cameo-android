@@ -94,6 +94,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
         ProxyRequest request = new ProxyRequest(this, this.loginPath);
         request.setDelegate(this);
+        request.setShowDialog(true);
         request.setParameters(parameters);
         request.setUseSession(false);
         request.execute();
