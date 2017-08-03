@@ -28,6 +28,7 @@
 package pt.hive.cameo;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -85,6 +86,12 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
      * required in order to ensure a proper asynchronous approach.
      */
     private ProxyRequestDelegate delegate;
+
+    /**
+     * If a dialog window should be displayed (if possible) during the request
+     * lifecycle indicating the progress of the operation.
+     */
+    private boolean showDialog;
 
     /**
      * The context object that is going to be used for resolution of global
@@ -155,9 +162,21 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             JSONObject body,
             ProxyRequestDelegate delegate
     ) {
+        return request(context, path, requestMethod, body, false, delegate);
+    }
+
+    public static ProxyRequest request(
+            Context context,
+            String path,
+            String requestMethod,
+            JSONObject body,
+            boolean showDialog,
+            ProxyRequestDelegate delegate
+    ) {
         ProxyRequest request = new ProxyRequest(context, path);
         request.setRequestMethod(requestMethod);
         request.setBody(body);
+        request.setShowDialog(showDialog);
         request.setDelegate(delegate);
         request.execute();
         return request;
@@ -227,42 +246,57 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     }
 
     @Override
-    public void didReceiveJson(final JSONObject data) {
+    public void didReceiveJson(final JSONRequest request, final JSONObject data) {
+        Object meta = request.getMeta();
+        if (meta != null) {
+            ProgressDialog progressDialog = (ProgressDialog) meta;
+            progressDialog.dismiss();
+        }
+
         if (this.delegate == null) {
             return;
         }
+
         if (this.activity == null) {
-            this.delegate.didReceiveJson(data);
+            this.delegate.didReceiveJson(this, data);
         } else {
             final ProxyRequest self = this;
             this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    self.delegate.didReceiveJson(data);
+                    self.delegate.didReceiveJson(self, data);
                 }
             });
         }
     }
 
     @Override
-    public void didReceiveError(final Object error) {
+    public void didReceiveError(final JSONRequest request, final Object error) {
+        Object meta = request.getMeta();
+        if (meta != null) {
+            ProgressDialog progressDialog = (ProgressDialog) meta;
+            progressDialog.dismiss();
+        }
+
         if (this.delegate == null) {
             return;
         }
+
         if (this.activity == null) {
-            this.delegate.didReceiveError(error);
+            this.delegate.didReceiveError(this, error);
         } else {
             final ProxyRequest self = this;
             this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    self.delegate.didReceiveError(error);
+                    self.delegate.didReceiveError(self, error);
                 }
             });
         }
     }
 
     public String load() throws IOException, JSONException {
+        Object meta = null;
         SharedPreferences preferences = this.context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         String baseUrl = preferences.getString("baseUrl", null);
         String sessionId = preferences.getString("sessionId", null);
@@ -282,6 +316,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
             parameters.add(new LinkedList<String>(Arrays.asList("session_id", sessionId)));
         }
 
+        if (this.showDialog) {
+            ProgressDialog progressDialog = new ProgressDialog(this.context);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(this.context.getString(R.string.loading));
+            progressDialog.show();
+            meta = progressDialog;
+        }
+
         // creates the JSON request object that is going to be used
         // for the current request, sets the multiple parameters and
         // then runs the load operations, triggering the network
@@ -292,6 +334,7 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
         request.setParameters(parameters);
         request.setRequestMethod(this.requestMethod);
         request.setBody(this.body);
+        request.setMeta(meta);
         return request.load();
     }
 
@@ -317,6 +360,14 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
 
     public void setDelegate(ProxyRequestDelegate delegate) {
         this.delegate = delegate;
+    }
+
+    public boolean getShowDialog() {
+        return this.showDialog;
+    }
+
+    public void setShowDialog(boolean showDialog) {
+        this.showDialog = showDialog;
     }
 
     public List<List<String>> getParameters() {

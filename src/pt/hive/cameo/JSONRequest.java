@@ -88,6 +88,12 @@ public class JSONRequest {
      */
     private JSONObject body;
 
+    /**
+     * Small meta information object that may be used to provide some extra
+     * content to the caller method/instance.
+     */
+    private Object meta;
+
     public JSONRequest() {
     }
 
@@ -133,7 +139,7 @@ public class JSONRequest {
             return this.execute();
         } catch (final Exception exception) {
             if (this.delegate != null) {
-                this.delegate.didReceiveError(exception);
+                this.delegate.didReceiveError(this, exception);
             }
         }
         return null;
@@ -200,7 +206,7 @@ public class JSONRequest {
         // verifies if there's a delegate currently defined and if that's
         // the case calls it using the proper strategy
         if (this.delegate != null) {
-            this.delegate.didReceiveJson(data);
+            this.delegate.didReceiveJson(this, data);
         }
 
         // returns the final string based result (contents) to
@@ -244,7 +250,7 @@ public class JSONRequest {
     }
 
     public JSONRequestDelegate getDelegate() {
-        return delegate;
+        return this.delegate;
     }
 
     public void setDelegate(JSONRequestDelegate delegate) {
@@ -252,7 +258,7 @@ public class JSONRequest {
     }
 
     public Context getContext() {
-        return context;
+        return this.context;
     }
 
     public void setContext(Context context) {
@@ -260,7 +266,7 @@ public class JSONRequest {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public void setUrl(String url) {
@@ -268,7 +274,7 @@ public class JSONRequest {
     }
 
     public List<List<String>> getParameters() {
-        return parameters;
+        return this.parameters;
     }
 
     public void setParameters(List<List<String>> parameters) {
@@ -276,7 +282,7 @@ public class JSONRequest {
     }
 
     public String getRequestMethod() {
-        return requestMethod;
+        return this.requestMethod;
     }
 
     public void setRequestMethod(String method) {
@@ -284,10 +290,18 @@ public class JSONRequest {
     }
 
     public JSONObject getBody() {
-        return body;
+        return this.body;
     }
 
     public void setBody(JSONObject body) {
         this.body = body;
+    }
+
+    public Object getMeta() {
+        return this.meta;
+    }
+
+    public void setMeta(Object meta) {
+        this.meta = meta;
     }
 }

@@ -186,7 +186,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     }
 
     @Override
-    public void didReceiveJson(JSONObject data) {
+    public void didReceiveJson(ProxyRequest request, JSONObject data) {
         try {
             // verifies if there's an exception set in the received data, if
             // that's the case the exception must be presented to the user
@@ -216,7 +216,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     }
 
     @Override
-    public void didReceiveError(Object error) {
+    public void didReceiveError(ProxyRequest request, Object error) {
         Log.d(Info.TAG, String.format("Error received in login request: %s", error));
         TextView errorText = (TextView) this.findViewById(this.getErrorId());
         if (errorText != null) {
