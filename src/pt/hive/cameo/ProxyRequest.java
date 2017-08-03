@@ -158,6 +158,15 @@ public class ProxyRequest extends AsyncTask<Void, Void, String> implements JSONR
     public static ProxyRequest request(
             Context context,
             String path,
+            boolean showDialog,
+            ProxyRequestDelegate delegate
+    ) {
+        return request(context, path, null, null, showDialog, delegate);
+    }
+
+    public static ProxyRequest request(
+            Context context,
+            String path,
             String requestMethod,
             JSONObject body,
             ProxyRequestDelegate delegate
