@@ -279,6 +279,10 @@ public class JSONRequest {
      * invalid value otherwise.
      */
     public int getResponseCode() {
+        if (this.urlConnection == null) {
+            return 0;
+        }
+
         try {
             return this.urlConnection.getResponseCode();
         } catch (IOException e) {
