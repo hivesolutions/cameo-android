@@ -56,55 +56,55 @@ public class JSONRequest {
      * The delegate that is going to be notified about the changes
      * in the state for the connection (success and failure).
      */
-    private JSONRequestDelegate delegate;
+    private JSONRequestDelegate delegate = null;
 
     /**
      * The (Android) context that is going to be used for the retrieval
      * of some global (application) values (eg: settings).
      */
-    private Context context;
+    private Context context = null;
 
     /**
      * The string based URL to be used in the JSON request, should be a full
      * and canonical URL value.
      */
-    private String url;
+    private String url = null;
 
     /**
      * A list contain a series of list for the complete parameters to be sent
      * in the request, this is going to be either sent via GET parameter if
      * there's no payload or as URLEncoded if it's a POST request.
      */
-    private List<List<String>> parameters;
+    private List<List<String>> parameters = null;
 
     /**
      * The name of the HTTP method (eg: GET, POST, DELETE, etc.) that is going
      * to be used in the JSON request.
      */
-    private String requestMethod;
+    private String requestMethod = null;
 
     /**
      * The body as a JSON object to be sent as the payload of the request.
      */
-    private JSONObject body;
+    private JSONObject body = null;
 
     /**
      * The timestamp of the last received response or error from the server
      * side, may be used to determine the state.
      */
-    private long lastResponse;
+    private long lastResponse = 0;
 
     /**
      * Small meta information object that may be used to provide some extra
      * content to the caller method/instance.
      */
-    private Object meta;
+    private Object meta = null;
 
     /**
-     * The last connection that has been created for the hanlding of this
+     * The last connection that has been created for the handling of this
      * JSON request, may be used for diagnostics.
      */
-    private HttpURLConnection urlConnection;
+    private HttpURLConnection urlConnection = null;
 
     public JSONRequest() {
     }

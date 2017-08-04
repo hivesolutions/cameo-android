@@ -73,13 +73,13 @@ public class ProxyRequest implements JSONRequestDelegate {
      * operation is required, note that the login action is always going to be
      * show for such operations.
      */
-    private static String loginPath;
+    private static String loginPath = null;
 
     /**
      * The reference to the resource that contains the image that is going to be
      * display in the login screen in case it's required for the request.
      */
-    private static int loginLogo;
+    private static int loginLogo = 0;
 
     /**
      * The class that is going to be used as reference for the login prompt,
@@ -92,62 +92,74 @@ public class ProxyRequest implements JSONRequestDelegate {
      * calling of the various callback functions for the request. This is
      * required in order to ensure a proper asynchronous approach.
      */
-    private ProxyRequestDelegate delegate;
+    private ProxyRequestDelegate delegate = null;
 
     /**
      * If a dialog window should be displayed (if possible) during the request
      * lifecycle indicating the progress of the operation.
      */
-    private boolean showDialog;
+    private boolean showDialog = false;
 
     /**
      * Simple flag that controls if a modal window confirming the error should
      * be displayed in case an error occurs for the request. Using that window
      * it's possible for the user to retry the request.
      */
-    private boolean confirmError;
+    private boolean confirmError = false;
+
+    /**
+     * The number of retries to be executed before the notification of the error
+     * is sent to the delegate. Useful way of handling network issues.
+     */
+    private int retryCount = 0;
+
+    /**
+     * The delay in milliseconds to be used in between retry operations of the
+     * request. Should allow enough time to avoid subsequent failures.
+     */
+    private int retryDelay = 1000;
 
     /**
      * The context object that is going to be used for resolution of global
      * values this is required in order for the request to work properly.
      */
-    private Context context;
+    private Context context = null;
 
     /**
      * The reference to the activity object that is going to be used for
      * UI related operations that require a visual context.
      */
-    private Activity activity;
+    private Activity activity = null;
 
     /**
      * The relative URL path for the request that is going to be performed, this
      * should be JSON based (eg: api/info.json).
      */
-    private String path;
+    private String path = null;
 
     /**
      * The various GET operation parameters that are going to be encoded to be
      * part of the request query parameters.
      */
-    private List<List<String>> parameters;
+    private List<List<String>> parameters = null;
 
     /**
      * The HTTP method to be set on the request, this should be an upper-cased
      * string like GET, POST, PUT or DELETE.
      */
-    private String requestMethod;
+    private String requestMethod = null;
 
     /**
      * The JSON object to be encoded as the body of a a payload based request
      * like POST or PUT requests.
      */
-    private JSONObject body;
+    private JSONObject body = null;
 
     /**
      * If a proper session must be created before any remote request is done
      * using the proxy request infra-structure.
      */
-    private boolean useSession;
+    private boolean useSession = false;
 
     public ProxyRequest() {
         this.useSession = true;
@@ -300,6 +312,18 @@ public class ProxyRequest implements JSONRequestDelegate {
             return;
         }
 
+        // in case there's retries waiting to be performed, then a new execution
+        // operation should be scheduler after a certain delay of sleeping
+        if (this.retryCount > 0) {
+            this.retryCount--;
+            try {
+                Thread.sleep(this.retryDelay);
+            } catch (InterruptedException exception) {
+            }
+            this.execute();
+            return;
+        }
+
         if (this.confirmError && this.activity != null) {
             final ProxyRequest self = this;
             this.activity.runOnUiThread(new Runnable() {
@@ -436,6 +460,22 @@ public class ProxyRequest implements JSONRequestDelegate {
 
     public void setConfirmError(boolean confirmError) {
         this.confirmError = confirmError;
+    }
+
+    public int getRetryCount() {
+        return this.retryCount;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
+
+    public int getRetryDelay() {
+        return this.retryDelay;
+    }
+
+    public void setRetryDelay(int retryCount) {
+        this.retryDelay = retryDelay;
     }
 
     public List<List<String>> getParameters() {
