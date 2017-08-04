@@ -278,6 +278,8 @@ public class ProxyRequest implements JSONRequestDelegate {
 
     @Override
     public void didReceiveError(final JSONRequest request, final Object error) {
+        // tries to retrieve any possible meta attribute associated with the
+        // request and if there0s any (progress dialog) dismisses it
         Object meta = request.getMeta();
         if (meta != null && this.activity != null) {
             final ProgressDialog progressDialog = (ProgressDialog) meta;
@@ -293,7 +295,7 @@ public class ProxyRequest implements JSONRequestDelegate {
         // if it represents a problem with the authentication and if that's
         // the case and there's a valid activity presents the login panel
         int statusCode = request.getResponseCode();
-        if (this.activity != null && this.AUTH_ERRORS.contains(statusCode)) {
+        if (this.AUTH_ERRORS.contains(statusCode) && this.activity != null) {
             this.showLogin();
             return;
         }

@@ -275,7 +275,7 @@ public class JSONRequest {
      * Retrieves the HTTP status code associated with the underlying
      * response (if any).
      *
-     * @return The status code for the last reponse if any or a zero
+     * @return The status code for the last response if any or a zero
      * invalid value otherwise.
      */
     public int getResponseCode() {
