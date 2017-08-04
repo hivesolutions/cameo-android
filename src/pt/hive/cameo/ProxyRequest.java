@@ -208,6 +208,18 @@ public class ProxyRequest implements JSONRequestDelegate {
             JSONObject body,
             boolean showDialog,
             boolean confirmError,
+            ProxyRequestDelegate delegate
+    ) {
+        return request(context, path, requestMethod, body, showDialog, confirmError, delegate, true);
+    }
+
+    public static ProxyRequest request(
+            Context context,
+            String path,
+            String requestMethod,
+            JSONObject body,
+            boolean showDialog,
+            boolean confirmError,
             ProxyRequestDelegate delegate,
             boolean execute
     ) {
