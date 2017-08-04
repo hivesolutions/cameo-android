@@ -66,7 +66,7 @@ public class ProxyRequest implements JSONRequestDelegate {
      * List that contains the complete set of error codes that describe
      * error related with authentication issues.
      */
-    public static List<Integer> AUTH_ERRORS = Arrays.asList(401, 403, 440, 499);
+    public static final List<Integer> AUTH_ERRORS = Arrays.asList(401, 403, 440, 499);
 
     /**
      * Relative path to the URL that is going to be called in case a login
