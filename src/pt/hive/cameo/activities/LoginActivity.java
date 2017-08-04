@@ -63,13 +63,13 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
      * The path (URL) as a string for the route that is going to be used
      * to perform the login operation.
      */
-    protected String loginPath;
+    protected String loginPath = null;
 
     /**
      * The identifier (as an integer) of the resource to be displayed as
      * the logo in the associated login view.
      */
-    protected int logoId;
+    protected int logoId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
