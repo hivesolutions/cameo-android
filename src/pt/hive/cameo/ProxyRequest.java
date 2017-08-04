@@ -188,7 +188,7 @@ public class ProxyRequest implements JSONRequestDelegate {
             boolean confirmError,
             ProxyRequestDelegate delegate
     ) {
-        return request(context, path, null, null, showDialog, confirmError, delegate);
+        return request(context, path, null, null, showDialog, confirmError, delegate, true);
     }
 
     public static ProxyRequest request(
@@ -198,7 +198,7 @@ public class ProxyRequest implements JSONRequestDelegate {
             JSONObject body,
             ProxyRequestDelegate delegate
     ) {
-        return request(context, path, requestMethod, body, false, false, delegate);
+        return request(context, path, requestMethod, body, false, false, delegate, true);
     }
 
     public static ProxyRequest request(
@@ -208,7 +208,8 @@ public class ProxyRequest implements JSONRequestDelegate {
             JSONObject body,
             boolean showDialog,
             boolean confirmError,
-            ProxyRequestDelegate delegate
+            ProxyRequestDelegate delegate,
+            boolean execute
     ) {
         ProxyRequest request = new ProxyRequest(context, path);
         request.setRequestMethod(requestMethod);
@@ -216,7 +217,9 @@ public class ProxyRequest implements JSONRequestDelegate {
         request.setShowDialog(showDialog);
         request.setConfirmError(confirmError);
         request.setDelegate(delegate);
-        request.execute();
+        if (execute) {
+            request.execute();
+        }
         return request;
     }
 
