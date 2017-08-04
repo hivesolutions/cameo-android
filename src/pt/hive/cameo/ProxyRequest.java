@@ -63,6 +63,12 @@ public class ProxyRequest implements JSONRequestDelegate {
     public static final int LOGIN_REQUEST = 1;
 
     /**
+     * List that contains the complete set of error codes that describe
+     * error related with authentication issues.
+     */
+    public static List<Integer> AUTH_ERRORS = Arrays.asList(401, 403, 440, 499);
+
+    /**
      * Relative path to the URL that is going to be called in case a login
      * operation is required, note that the login action is always going to be
      * show for such operations.
@@ -281,6 +287,15 @@ public class ProxyRequest implements JSONRequestDelegate {
                     progressDialog.dismiss();
                 }
             });
+        }
+
+        // retrieves the status code of the request and tries to determine
+        // if it represents a problem with the authentication and if that's
+        // the case and there's a valid activity presents the login panel
+        int statusCode = request.getResponseCode();
+        if (this.activity != null && this.AUTH_ERRORS.contains(statusCode)) {
+            this.showLogin();
+            return;
         }
 
         if (this.confirmError && this.activity != null) {

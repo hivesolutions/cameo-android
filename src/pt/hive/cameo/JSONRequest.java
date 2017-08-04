@@ -100,6 +100,12 @@ public class JSONRequest {
      */
     private Object meta;
 
+    /**
+     * The last connection that has been created for the hanlding of this
+     * JSON request, may be used for diagnostics.
+     */
+    private HttpURLConnection urlConnection;
+
     public JSONRequest() {
     }
 
@@ -164,42 +170,33 @@ public class JSONRequest {
         // uses the constructed URL string value to create a URL instance
         // and then uses that same instance to build an HTTP URL connection
         URL _url = new URL(url);
-        HttpURLConnection urlConnection = (HttpURLConnection) _url.openConnection();
+        this.urlConnection = (HttpURLConnection) _url.openConnection();
 
-        // sets a series of general diagnostics purpose headers related with
-        // the current device (eg: OS version, manufacturer, model, etc.)
-        if (android.os.Build.MODEL != null) {
-            urlConnection.setRequestProperty("X-Android-Model", android.os.Build.MODEL);
-        }
-        if (android.os.Build.MANUFACTURER != null) {
-            urlConnection.setRequestProperty("X-Android-Manufacturer", android.os.Build.MANUFACTURER);
-        }
-        if (android.os.Build.PRODUCT != null) {
-            urlConnection.setRequestProperty("X-Android-Product", android.os.Build.PRODUCT);
-        }
-        if (android.os.Build.VERSION.BASE_OS != null) {
-            urlConnection.setRequestProperty("X-Android-Version", android.os.Build.VERSION.BASE_OS);
-        }
+        // writes the series of extra values to the connection so that all the
+        // possible information is set on it
+        this.writeExtras(urlConnection);
 
         // in case the request method is defined sets it on the
         // current URL connection value
         if (this.requestMethod != null) {
-            urlConnection.setRequestMethod(this.requestMethod);
+            this.urlConnection.setRequestMethod(this.requestMethod);
         }
 
         // in case there's a valid body payload defined sets that same payload
         // in the current URL connection
         if (this.body != null) {
-            this.writeBody(urlConnection);
+            this.writeBody(this.urlConnection);
         }
 
         // creates the buffered input stream from the input stream that is
         // "exposed" by the URL connection
-        InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
+        InputStream stream = new BufferedInputStream(this.urlConnection.getInputStream());
 
         try {
             // retrieves the contents from the input stream and then converts
-            // this same result into a string based result value
+            // this same result into a string based result value, notice that
+            // the main interaction with the server side occurs by request the
+            // input stream, so this call should trigger the main interaction
             result = JSONRequest.convertStreamToString(stream);
         } finally {
             // closes the base stream as it's not longer going to be used for
@@ -253,8 +250,40 @@ public class JSONRequest {
         urlConnection.setRequestProperty("Content-Type", "application/json");
         OutputStream output = urlConnection.getOutputStream();
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        writer.write(body.toString());
+        writer.write(this.body.toString());
         writer.flush();
+    }
+
+    private void writeExtras(URLConnection urlConnection) {
+        // sets a series of general diagnostics purpose headers related with
+        // the current device (eg: OS version, manufacturer, model, etc.)
+        if (android.os.Build.MODEL != null) {
+            urlConnection.setRequestProperty("X-Android-Model", android.os.Build.MODEL);
+        }
+        if (android.os.Build.MANUFACTURER != null) {
+            urlConnection.setRequestProperty("X-Android-Manufacturer", android.os.Build.MANUFACTURER);
+        }
+        if (android.os.Build.PRODUCT != null) {
+            urlConnection.setRequestProperty("X-Android-Product", android.os.Build.PRODUCT);
+        }
+        if (android.os.Build.VERSION.BASE_OS != null) {
+            urlConnection.setRequestProperty("X-Android-Version", android.os.Build.VERSION.BASE_OS);
+        }
+    }
+
+    /**
+     * Retrieves the HTTP status code associated with the underlying
+     * response (if any).
+     *
+     * @return The status code for the last reponse if any or a zero
+     * invalid value otherwise.
+     */
+    public int getResponseCode() {
+        try {
+            return this.urlConnection.getResponseCode();
+        } catch (IOException e) {
+            return 0;
+        }
     }
 
     public JSONRequestDelegate getDelegate() {
