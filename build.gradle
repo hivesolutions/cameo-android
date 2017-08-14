@@ -38,7 +38,7 @@ android {
         release.setRoot("build-types/release")
     }
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 8
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -80,7 +80,7 @@ ext {
     siteUrl = "https://github.com/hivesolutions/cameo_android"
     gitUrl = "https://github.com/hivesolutions/cameo_android.git"
 
-    libraryVersion = "0.2.18"
+    libraryVersion = "0.2.19"
 
     developerId = "hivesolutions"
     developerName = "Hive Solutions"
