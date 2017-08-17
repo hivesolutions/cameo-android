@@ -126,7 +126,8 @@ public class JSONRequest {
      * @param stream The stream that is going to be used for reading the complete
      *               set of data and convert it into a "simple" string value.
      * @return The final string value retrieved from the input stream.
-     * @throws IOException
+     * @throws IOException Raised when the provided stream is not valid meaning
+     * that it's not possible to read data from it.
      */
     private static String convertStreamToString(InputStream stream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
