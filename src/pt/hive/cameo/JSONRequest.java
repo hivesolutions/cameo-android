@@ -30,6 +30,7 @@ package pt.hive.cameo;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -302,17 +303,20 @@ public class JSONRequest {
     private void writeExtras(URLConnection urlConnection) {
         // sets a series of general diagnostics purpose headers related with
         // the current device (eg: OS version, manufacturer, model, etc.)
-        if (android.os.Build.MODEL != null) {
-            urlConnection.setRequestProperty("X-Android-Model", android.os.Build.MODEL);
+        if (Build.MODEL != null) {
+            urlConnection.setRequestProperty("X-Android-Model", Build.MODEL);
         }
-        if (android.os.Build.MANUFACTURER != null) {
-            urlConnection.setRequestProperty("X-Android-Manufacturer", android.os.Build.MANUFACTURER);
+        if (Build.MANUFACTURER != null) {
+            urlConnection.setRequestProperty("X-Android-Manufacturer", Build.MANUFACTURER);
         }
-        if (android.os.Build.PRODUCT != null) {
-            urlConnection.setRequestProperty("X-Android-Product", android.os.Build.PRODUCT);
+        if (Build.PRODUCT != null) {
+            urlConnection.setRequestProperty("X-Android-Product", Build.PRODUCT);
         }
-        if (android.os.Build.VERSION.BASE_OS != null) {
-            urlConnection.setRequestProperty("X-Android-Version", android.os.Build.VERSION.BASE_OS);
+        if (Build.VERSION.RELEASE != null) {
+            urlConnection.setRequestProperty("X-Android-Version", Build.VERSION.RELEASE);
+        }
+        if (Build.VERSION.SDK_INT != 0) {
+            urlConnection.setRequestProperty("X-Android-SDK", String.valueOf(Build.VERSION.SDK_INT));
         }
     }
 
