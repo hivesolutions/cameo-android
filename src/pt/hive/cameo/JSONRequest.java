@@ -266,6 +266,12 @@ public class JSONRequest {
         // null verification operations
         PackageInfo info = null;
 
+        // in case there's no valid context defined must return the
+        // control flow immediately to avoid possible issues
+        if (this.context == null) {
+            return;
+        }
+
         // retrieves the reference to the package manager instance
         // that is going to be used for package retrieval
         PackageManager manager = this.context.getPackageManager();
