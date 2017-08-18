@@ -57,5 +57,4 @@ public class Definitions {
                 environ.get("HTTPBIN") : HTTPBIN_HOST;
         return prefix + httpBinHost;
     }
-
 }
