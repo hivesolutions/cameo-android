@@ -28,6 +28,8 @@
 package pt.hive.cameo;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -127,7 +129,7 @@ public class JSONRequest {
      *               set of data and convert it into a "simple" string value.
      * @return The final string value retrieved from the input stream.
      * @throws IOException Raised when the provided stream is not valid meaning
-     * that it's not possible to read data from it.
+     *                     that it's not possible to read data from it.
      */
     private static String convertStreamToString(InputStream stream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -172,6 +174,10 @@ public class JSONRequest {
         // and then uses that same instance to build an HTTP URL connection
         URL _url = new URL(url);
         this.urlConnection = (HttpURLConnection) _url.openConnection();
+
+        // writes the series of package related values to the connection so
+        // that all the possible information is set on it
+        this.writePackage(urlConnection);
 
         // writes the series of extra values to the connection so that all the
         // possible information is set on it
@@ -253,6 +259,38 @@ public class JSONRequest {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         writer.write(this.body.toString());
         writer.flush();
+    }
+
+    private void writePackage(URLConnection urlConnection) {
+        // sets the initial info value as invalid, useful for latter
+        // null verification operations
+        PackageInfo info = null;
+
+        // retrieves the reference to the package manager instance
+        // that is going to be used for package retrieval
+        PackageManager manager = this.context.getPackageManager();
+        if (manager == null) {
+            return;
+        }
+
+        // tries to retrieve the information regarding the current package
+        // if there's a problem in such retrieve the control flow is returned
+        try {
+            info = manager.getPackageInfo(this.context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException exception) {
+        }
+        if (info == null) {
+            return;
+        }
+
+        // writes the multiple package related values to the as properties these
+        // are going to be passed as HTTP header latter on
+        if (info.packageName != null) {
+            urlConnection.setRequestProperty("X-Android-Package", info.packageName);
+        }
+        if (info.versionName != null) {
+            urlConnection.setRequestProperty("X-Android-Package-Version", info.versionName);
+        }
     }
 
     private void writeExtras(URLConnection urlConnection) {
