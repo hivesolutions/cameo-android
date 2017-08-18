@@ -316,7 +316,7 @@ public class JSONRequest {
             urlConnection.setRequestProperty("X-Android-Version", Build.VERSION.RELEASE);
         }
         if (Build.VERSION.SDK_INT != 0) {
-            urlConnection.setRequestProperty("X-Android-SDK", String.valueOf(Build.VERSION.SDK_INT));
+            urlConnection.setRequestProperty("X-Android-Sdk", String.valueOf(Build.VERSION.SDK_INT));
         }
     }
 
