@@ -48,3 +48,17 @@ bintray.user=$BINTRAY_USER
 bintray.apikey=$BINTRAY_API_KEY
 bintray.gpg.password=$GPG_KEY_PASSWORD
 ```
+
+## References
+
+* [How to upload library to jCenter](https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en)
+
+## License
+
+Cameo Android is currently licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/).
+
+## Build Automation
+
+[![Build Status](https://travis-ci.org/hivesolutions/cameo_android.svg?branch=master)](https://travis-ci.org/hivesolutions/cameo_android)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/)
+
