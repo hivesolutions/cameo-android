@@ -52,6 +52,7 @@ bintray.gpg.password=$GPG_KEY_PASSWORD
 ## References
 
 * [How to upload library to jCenter](https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en)
+* [How to Publish Your Android Studio Library to JCenter](https://medium.com/@daniellevass/how-to-publish-your-android-studio-library-to-jcenter-5384172c4739)
 
 ## License
 
@@ -61,4 +62,3 @@ Cameo Android is currently licensed under the [Apache License, Version 2.0](http
 
 [![Build Status](https://travis-ci.org/hivesolutions/cameo_android.svg?branch=master)](https://travis-ci.org/hivesolutions/cameo_android)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/)
-
