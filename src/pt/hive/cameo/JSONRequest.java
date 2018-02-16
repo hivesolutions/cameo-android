@@ -244,6 +244,12 @@ public class JSONRequest {
         return url;
     }
 
+    /**
+     * Constructs the multiple GET parameters that are going to be sent
+     * together with the URL request.
+     *
+     * @return The final GET parameters serialized as a string.
+     */
     private String constructParameters() {
         StringBuffer buffer = new StringBuffer();
         for (List<String> parameter : this.parameters) {
