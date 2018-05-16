@@ -12,6 +12,7 @@ local.properties
 /.idea/workspace.xml
 /.idea/libraries
 /.idea/codeStyles
+/.idea/caches
 
 /gradlew
 /gradlew.bat
