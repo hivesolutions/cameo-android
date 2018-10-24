@@ -9,10 +9,11 @@
 local.properties
 
 /.gradle
+
 /.idea/workspace.xml
-/.idea/libraries
-/.idea/codeStyles
 /.idea/caches
+/.idea/codeStyles
+/.idea/libraries
 
 /gradlew
 /gradlew.bat
