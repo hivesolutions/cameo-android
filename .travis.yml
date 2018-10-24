@@ -9,7 +9,7 @@ android:
     - build-tools-26.0.2
     - android-25
 env:
-  - GRADLE_VERSION=4.2.1 HTTPBIN=httpbin.bemisc.com
+  - GRADLE_VERSION=4.10.2 HTTPBIN=httpbin.bemisc.com
 before_script:
   - wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
   - unzip -q -d ~/gradle gradle-$GRADLE_VERSION-bin.zip
