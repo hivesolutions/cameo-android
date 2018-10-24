@@ -6,8 +6,8 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:3.2.1"
-		classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7"
-		classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
     }
 }
 
@@ -17,7 +17,7 @@ allprojects {
         google()
         jcenter()
     }
-	tasks.withType(Javadoc).all { enabled = false }
+    tasks.withType(Javadoc).all { enabled = false }
 }
 
 apply plugin: "com.android.library"
@@ -25,7 +25,7 @@ apply plugin: "com.android.library"
 android {
     compileSdkVersion 25
     buildToolsVersion "28.0.3"
-	sourceSets {
+    sourceSets {
         main {
             manifest.srcFile "AndroidManifest.xml"
             java.srcDirs = ["src"]
