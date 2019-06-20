@@ -35,10 +35,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -370,7 +368,7 @@ public class ProxyRequest implements JSONRequestDelegate {
         this.notifyError(error);
     }
 
-    public String load() throws IOException, JSONException {
+    public String load() {
         final ProxyRequest self = this;
 
         Object meta = null;

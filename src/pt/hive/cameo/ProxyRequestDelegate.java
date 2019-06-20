@@ -35,7 +35,7 @@ public interface ProxyRequestDelegate {
      * the proxy request.
      *
      * @param request The request associated with the valid response.
-     * @param data The JSON data of the valid response.
+     * @param data    The JSON data of the valid response.
      */
     void didReceiveJson(ProxyRequest request, JSONObject data);
 
@@ -44,7 +44,7 @@ public interface ProxyRequestDelegate {
      * should contain a valid error object.
      *
      * @param request The request associated with the error.
-     * @param error The error that has been received.
+     * @param error   The error that has been received.
      */
     void didReceiveError(ProxyRequest request, Object error);
 }

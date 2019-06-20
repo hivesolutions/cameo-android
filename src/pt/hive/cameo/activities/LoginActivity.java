@@ -88,8 +88,8 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // retrieves the reference to both the username and the password from the
         // corresponding visual elements, these are going to be used as part of
         // the parameters to tbe used in the remote request
-        EditText username = (EditText) this.findViewById(this.getUsernameId());
-        EditText password = (EditText) this.findViewById(this.getPasswordId());
+        EditText username = this.findViewById(this.getUsernameId());
+        EditText password = this.findViewById(this.getPasswordId());
 
         // creates the list of parameters tha are going to be used for the login
         // request execution (to be sent to the proxy request)
@@ -137,13 +137,13 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
         // updated with the associated resource (customized view)
         if (this.logoId != 0) {
             Drawable logoResource = Layout.getDrawable(this.logoId, this);
-            ImageView logo = (ImageView) this.findViewById(this.getLogoId());
+            ImageView logo = this.findViewById(this.getLogoId());
             logo.setImageDrawable(logoResource);
         }
 
         // retrieves the password edit text field and updates it to the
         // sans serif typeface and then updates the transformation method
-        EditText password = (EditText) this.findViewById(this.getPasswordId());
+        EditText password = this.findViewById(this.getPasswordId());
         if (password != null) {
             password.setTypeface(Typeface.SANS_SERIF);
             password.setTransformationMethod(new PasswordTransformationMethod());
@@ -160,7 +160,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
 
         // retrieves the reference to the sign in button in the current activity
         // and registers the current instance as the click listener
-        Button signIn = (Button) findViewById(this.getSigninId());
+        Button signIn = findViewById(this.getSigninId());
         if (signIn != null) {
             signIn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -228,7 +228,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     @Override
     public void didReceiveError(ProxyRequest request, Object error) {
         Log.d(Info.TAG, String.format("Error received in login request: %s", error));
-        TextView errorText = (TextView) this.findViewById(this.getErrorId());
+        TextView errorText = this.findViewById(this.getErrorId());
         if (errorText != null) {
             errorText.setText(error.toString());
             errorText.setVisibility(View.VISIBLE);

@@ -37,7 +37,7 @@ import static org.junit.Assert.assertNull;
 public class ProxyRequestTest {
 
     @Test
-    public void basic() throws Exception {
+    public void basic() {
         String path = ProxyRequest.getLoginPath();
         assertNull(path);
 
