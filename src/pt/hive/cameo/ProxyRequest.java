@@ -499,7 +499,7 @@ public class ProxyRequest implements JSONRequestDelegate {
         return this.retryDelay;
     }
 
-    public void setRetryDelay(int retryCount) {
+    public void setRetryDelay(int retryDelay) {
         this.retryDelay = retryDelay;
     }
 
