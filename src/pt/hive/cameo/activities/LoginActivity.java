@@ -85,13 +85,22 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
     }
 
     protected void login() {
+        // retrieves the reference to both the username and the password from the
+        // corresponding visual elements, these are going to be used as part of
+        // the parameters to tbe used in the remote request
         EditText username = (EditText) this.findViewById(this.getUsernameId());
         EditText password = (EditText) this.findViewById(this.getPasswordId());
 
+        // creates the list of parameters tha are going to be used for the login
+        // request execution (to be sent to the proxy request)
         List<List<String>> parameters = new LinkedList<>();
         parameters.add(new LinkedList<>(Arrays.asList("username", username.getText().toString())));
         parameters.add(new LinkedList<>(Arrays.asList("password", password.getText().toString())));
 
+        // creates a new proxy request object with the current instance as the
+        // context and the login path as target, then sets the current instance
+        // as the delegate and sets also a series of extra parameters and triggers
+        // the initial execution instruction to start the request process
         ProxyRequest request = new ProxyRequest(this, this.loginPath);
         request.setDelegate(this);
         request.setShowDialog(true);
