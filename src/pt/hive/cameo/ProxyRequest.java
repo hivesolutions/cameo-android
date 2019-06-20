@@ -246,7 +246,7 @@ public class ProxyRequest implements JSONRequestDelegate {
         SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("sessionId");
-        editor.commit();
+        editor.apply();
         ProxyRequest request = new ProxyRequest(context);
         request.showLogin();
     }
@@ -255,7 +255,7 @@ public class ProxyRequest implements JSONRequestDelegate {
         SharedPreferences preferences = context.getSharedPreferences("cameo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("baseUrl", url);
-        editor.commit();
+        editor.apply();
     }
 
     public static void setLoginActivity(Class<? extends LoginActivity> loginActivity) {
