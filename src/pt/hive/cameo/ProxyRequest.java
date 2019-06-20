@@ -381,7 +381,7 @@ public class ProxyRequest implements JSONRequestDelegate {
         String sessionId = preferences.getString("sessionId", null);
         String urlString = String.format("%s%s", baseUrl, this.path);
 
-        if (this.useSession && ProxyRequest.isReady(this.context) == false) {
+        if (this.useSession && !ProxyRequest.isReady(this.context)) {
             this.showLogin();
             return null;
         }

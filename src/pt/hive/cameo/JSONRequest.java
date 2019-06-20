@@ -251,7 +251,7 @@ public class JSONRequest {
      * @return The final GET parameters serialized as a string.
      */
     private String constructParameters() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (List<String> parameter : this.parameters) {
             String parameterS = String.format("%s=%s&", parameter.get(0), parameter.get(1));
             buffer.append(parameterS);

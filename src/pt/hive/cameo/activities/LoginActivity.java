@@ -215,7 +215,7 @@ public class LoginActivity extends Activity implements ProxyRequestDelegate {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("sessionId", sessionId);
             editor.putString("username", username);
-            editor.commit();
+            editor.apply();
 
             // finishes the current activity as it no longer needs to be
             // present for the login operation (already logged in)
