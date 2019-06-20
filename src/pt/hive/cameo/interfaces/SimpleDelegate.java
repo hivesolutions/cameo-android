@@ -28,7 +28,7 @@
 package pt.hive.cameo.interfaces;
 
 public interface SimpleDelegate {
-    public void onSuccess(Object result);
+    void onSuccess(Object result);
 
-    public void onError(Object error);
+    void onError(Object error);
 }

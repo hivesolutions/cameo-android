@@ -39,7 +39,7 @@ public interface JSONRequestDelegate {
      * @param request The JSON request object used in the request.
      * @param data    The JSON payload information retrieved from the response.
      */
-    public void didReceiveJson(JSONRequest request, JSONObject data);
+    void didReceiveJson(JSONRequest request, JSONObject data);
 
     /**
      * Delegate method called when an error occurs performing the JSON
@@ -48,5 +48,5 @@ public interface JSONRequestDelegate {
      * @param request The JSON request object used in the request.
      * @param error   The error object describing the problem.
      */
-    public void didReceiveError(JSONRequest request, Object error);
+    void didReceiveError(JSONRequest request, Object error);
 }

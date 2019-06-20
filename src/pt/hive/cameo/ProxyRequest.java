@@ -322,12 +322,13 @@ public class ProxyRequest implements JSONRequestDelegate {
         // if it represents a problem with the authentication and if that's
         // the case and there's a valid activity presents the login panel
         int statusCode = request.getResponseCode();
-        if (this.AUTH_ERRORS.contains(statusCode) && this.activity != null) {
+        if (AUTH_ERRORS.contains(statusCode) && this.activity != null &&
+                this.activity.getClass() != ProxyRequest.loginActivity) {
             this.showLogin();
             return;
         }
 
-        // in case there's retries waiting to be performed, then a new execution
+        // in case there are retries waiting to be performed, then a new execution
         // operation should be scheduler after a certain delay of sleeping
         if (this.retryCount > 0) {
             this.retryCount--;
@@ -364,6 +365,8 @@ public class ProxyRequest implements JSONRequestDelegate {
             return;
         }
 
+        // runs the overall on error notification, meaning that delegates
+        // are going to be the ones handling the error
         this.notifyError(error);
     }
 
@@ -442,6 +445,13 @@ public class ProxyRequest implements JSONRequestDelegate {
         // the case returns immediately as it's not possible to show
         // the login for the current context information
         if (this.activity == null) {
+            return;
+        }
+
+        // in case the class of the current activity for the request is
+        // of the same type as the login activity to be shown then ignores
+        // the request to avoid duplicated activities on screen
+        if (this.activity.getClass() == ProxyRequest.loginActivity) {
             return;
         }
 
