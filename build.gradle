@@ -23,7 +23,7 @@ allprojects {
 apply plugin: "com.android.library"
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "28.0.3"
     sourceSets {
         main {
@@ -43,7 +43,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
