@@ -73,16 +73,16 @@ dependencies {
 
 ext {
     bintrayRepo = "maven"
-    bintrayName = "cameo_android"
+    bintrayName = "cameo-android"
 
     publishedGroupId = "pt.hive.cameo"
     libraryName = "Cameo"
-    artifact = "cameo_android"
+    artifact = "cameo-android"
 
     libraryDescription = "The Android version of the Cameo framework"
 
-    siteUrl = "https://github.com/hivesolutions/cameo_android"
-    gitUrl = "https://github.com/hivesolutions/cameo_android.git"
+    siteUrl = "https://github.com/hivesolutions/cameo-android"
+    gitUrl = "https://github.com/hivesolutions/cameo-android.git"
 
     libraryVersion = "0.3.6"
 

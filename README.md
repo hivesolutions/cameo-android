@@ -14,7 +14,7 @@ allprojects {
 }
 
 dependencies {
-    compile "pt.hive.cameo:cameo_android:0.1.4"
+    compile "pt.hive.cameo:cameo-android:0.2.0"
 }
 ```
 
@@ -60,5 +60,5 @@ Cameo Android is currently licensed under the [Apache License, Version 2.0](http
 
 ## Build Automation
 
-[![Build Status](https://app.travis-ci.com/hivesolutions/cameo_android.svg?branch=master)](https://travis-ci.com/github/hivesolutions/cameo_android)
+[![Build Status](https://app.travis-ci.com/hivesolutions/cameo-android.svg?branch=master)](https://travis-ci.com/github/hivesolutions/cameo-android)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/)
