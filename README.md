@@ -12,7 +12,7 @@ allprojects {
 }
 
 dependencies {
-    implementation "com.github.hivesolutions:cameo-android:0.4.0"
+    implementation "com.github.hivesolutions:cameo-android:0.4.1"
 }
 ```
 
