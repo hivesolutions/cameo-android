@@ -55,7 +55,7 @@ public class JSONRequestTest {
                 Arrays.asList(Arrays.asList("message", "hello")));
         result = jsonRequest.execute();
         JSONObject data = new JSONObject(result);
-        assertNotEquals(result, null);
+        assertNotEquals(result, 2);
         assertNotEquals(result.compareTo(""), 0);
         assertEquals(data.getJSONObject("args").getString("message").compareTo("hello"), 0);
     }
