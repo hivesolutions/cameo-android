@@ -35,6 +35,8 @@ ProxyRequest.request(this, "api/ping.json", new ProxyRequestDelegate() {
 
 The current deployment strategy uses [JitPack](https://jitpack.io), making use of GitHub releases.
 
+This is an easy to go solution as it only requires tagging a certain Git commit and a version is automatically made available at [https://jitpack.io/#hivesolutions/cameo-android](https://jitpack.io/#hivesolutions/cameo-android).
+
 ## References
 
 * [How to upload library to jCenter](https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en)
