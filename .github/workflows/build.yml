@@ -1,0 +1,21 @@
+name: Build Workflow
+on:
+  push:
+  schedule:
+    - cron: "0 0 * * 0"
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
+          unzip -q -d ~/gradle gradle-$GRADLE_VERSION-bin.zip
+          eport PATH=~/gradle/gradle-$GRADLE_VERSION/bin:$PATH
+          touch local.properties
+        env:
+          GRADLE_VERSION: 5.1.1
+      - name: Build packages
+        run: HTTPBIN=httpbin.bemisc.com gradle
