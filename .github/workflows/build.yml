@@ -19,9 +19,12 @@ jobs:
         run: |
           wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
           unzip -q -d ~/gradle gradle-$GRADLE_VERSION-bin.zip
-          export PATH=~/gradle/gradle-$GRADLE_VERSION/bin:$PATH
           touch local.properties
         env:
           GRADLE_VERSION: 5.1.1
       - name: Build packages
-        run: HTTPBIN=httpbin.bemisc.com gradle
+        run: |
+          export PATH=~/gradle/gradle-$GRADLE_VERSION/bin:$PATH
+          HTTPBIN=httpbin.bemisc.com gradle
+        env:
+          GRADLE_VERSION: 5.1.1
