@@ -30,6 +30,20 @@ android {
     }
 }
 
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = "pt.hive.cameo"
+            artifactId = "cameo-android"
+            version = "0.3.6"
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:26.1.0"
