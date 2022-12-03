@@ -26,17 +26,10 @@ jobs:
           wget -q https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
           unzip -q -d ~/gradle gradle-$GRADLE_VERSION-bin.zip
           touch local.properties
+          echo "~/gradle/gradle-$GRADLE_VERSION/bin" >> $GITHUB_PATH
         env:
           GRADLE_VERSION: ${{ matrix.gradle-version }}
       - name: Build packages
-        run: |
-          export PATH=~/gradle/gradle-$GRADLE_VERSION/bin:$PATH
-          HTTPBIN=httpbin.bemisc.com gradle
-        env:
-          GRADLE_VERSION: ${{ matrix.gradle-version }}
+        run: HTTPBIN=httpbin.bemisc.com gradle
       - name: Test packages
-        run: |
-          export PATH=~/gradle/gradle-$GRADLE_VERSION/bin:$PATH
-          HTTPBIN=httpbin.bemisc.com gradle test --info
-        env:
-          GRADLE_VERSION: ${{ matrix.gradle-version }}
+        run: HTTPBIN=httpbin.bemisc.com gradle test --info
