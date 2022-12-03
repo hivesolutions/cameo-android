@@ -1,99 +1,70 @@
-buildscript {
+plugins {
+    id "java-library"
+    id "maven-publish"
+    id "signing"
+}
+
+group = "pt.hive.cameo"
+version = "0.3.6"
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = "cameo-android"
+            from components.java
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = "Cameo"
+                description = "The Android version of the Cameo framework"
+                url = "https://github.com/hivesolutions/cameo-android"
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "hivesolutions"
+                        name = "Hive Solutions Lda."
+                        email = "development@hive.pt"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/hivesolutions/cameo-android.git"
+                    developerConnection = "scm:git:ssh://github.com/hivesolutions/cameo-android.git"
+                    url = "https://github.com/hivesolutions/cameo-android"
+                }
+            }
+        }
+    }
     repositories {
-        mavenCentral()
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:3.4.1"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-    }
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-        google()
-        jcenter()
-    }
-    tasks.withType(Javadoc).all { enabled = false }
-}
-
-apply plugin: "com.android.library"
-
-android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.3"
-    sourceSets {
-        main {
-            manifest.srcFile "AndroidManifest.xml"
-            java.srcDirs = ["src"]
-            resources.srcDirs = ["src"]
-            aidl.srcDirs = ["src"]
-            renderscript.srcDirs = ["src"]
-            res.srcDirs = ["res"]
-            assets.srcDirs = ["assets"]
-        }
-        test {
-            java.srcDirs = ["src"]
-        }
-        debug.setRoot("build-types/debug")
-        release.setRoot("build-types/release")
-    }
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        maven {
+            def releasesRepoUrl = layout.buildDirectory.dir("repos/releases")
+            def snapshotsRepoUrl = layout.buildDirectory.dir("repos/snapshots")
+            url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
         }
     }
-    lintOptions {
-        abortOnError false
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption("html5", true)
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
 }
-
-dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:26.1.0"
-    implementation "com.android.support:design:26.1.0"
-    implementation "com.android.support.constraint:constraint-layout:1.1.3"
-    implementation "junit:junit:4.12"
-    testImplementation "org.json:json:20180813"
-}
-
-ext {
-    bintrayRepo = "maven"
-    bintrayName = "cameo-android"
-
-    publishedGroupId = "pt.hive.cameo"
-    libraryName = "Cameo"
-    artifact = "cameo-android"
-
-    libraryDescription = "The Android version of the Cameo framework"
-
-    siteUrl = "https://github.com/hivesolutions/cameo-android"
-    gitUrl = "https://github.com/hivesolutions/cameo-android.git"
-
-    libraryVersion = "0.3.6"
-
-    developerId = "hivesolutions"
-    developerName = "Hive Solutions"
-    developerEmail = "development@hive.pt"
-
-    licenseName = "The Apache Software License, Version 2.0"
-    licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-    allLicenses = ["Apache-2.0"]
-}
-
-apply from: "https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle"
-apply from: "https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle"
