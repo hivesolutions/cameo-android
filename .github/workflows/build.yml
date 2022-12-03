@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         java-version: [17]
-        gradle-version: [6.2]
+        gradle-version: [6.7.1]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
