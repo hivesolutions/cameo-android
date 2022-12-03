@@ -13,8 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* Renamed repository to `cameo-android`
+*
 
 ### Fixed
 
 *
+
+## [0.4.0] - 2022-12-03
+
+### Changed
+
+* First use of [jitpack.io](https://jitpack.io)
+* Renamed repository to `cameo-android`
