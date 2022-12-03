@@ -1,10 +1,16 @@
-buildscript {
+pluginManagement {
     repositories {
-        mavenCentral()
-        jcenter()
+        gradlePluginPortal()
         google()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:2.3.0"
+        mavenCentral()
     }
 }
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Cameo"
+include ":cameo"
