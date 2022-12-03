@@ -4,9 +4,6 @@ plugins {
     id "com.android.library"
 }
 
-group = "pt.hive.cameo"
-version = "0.3.6"
-
 android {
     namespace "pt.hive.cameo"
     compileSdk 32
