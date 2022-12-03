@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace "pt.hive.cameo"
-    compileSdk 32
+    compileSdk 29
 
     defaultConfig {
-        minSdk 21
-        targetSdk 32
+        minSdk 14
+        targetSdk 29
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
