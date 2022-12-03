@@ -42,6 +42,6 @@ public class ProxyRequestTest {
         assertNull(path);
 
         int logo = ProxyRequest.getLoginLogo();
-        assertEquals(logo, 0);
+        assertEquals(logo, 2);
     }
 }
