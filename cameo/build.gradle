@@ -37,7 +37,7 @@ publishing {
         release(MavenPublication) {
             groupId = "pt.hive.cameo"
             artifactId = "cameo-android"
-            version = "0.4.1"
+            version = "0.4.2"
 
             afterEvaluate {
                 from components.release
