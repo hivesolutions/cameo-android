@@ -34,3 +34,9 @@ jobs:
           HTTPBIN=httpbin.bemisc.com gradle
         env:
           GRADLE_VERSION: ${{ matrix.gradle-version }}
+      - name: Test packages
+        run: |
+          export PATH=~/gradle/gradle-$GRADLE_VERSION/bin:$PATH
+          HTTPBIN=httpbin.bemisc.com gradle test
+        env:
+          GRADLE_VERSION: ${{ matrix.gradle-version }}
